@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Page de connexion{% endblock %}
 
 {% block body %}
 <form method="post">
@@ -38,5 +38,6 @@
     <button class="btn mt-3 btn-lg btn-primary" type="submit">
         Se connecter
     </button>
+   <a class="ms-4" href="{{path('create_account')}}">Vous n'avez pas de compte ?</a> 
 </form>
 {% endblock %}
