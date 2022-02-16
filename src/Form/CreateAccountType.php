@@ -17,21 +17,21 @@ class CreateAccountType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class, array(
+            ->add('email', EmailType::class, array( //modif comment en dessous
                 'label' => "Votre email",
                 'row_attr' => [
                     'class' => 'form-group'
                 ]
             ))
-            ->add('password', RepeatedType::class, array(
+            ->add('password', RepeatedType::class, [
                 'label' => "Votre mot de passe",
                 'row_attr' => [
                     'class' => 'form-group',
                 'first_options' => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Répéter le mot de passe']
                 ]
-            ))
-            ->add('name', TextType::class, array(
+            ])
+            ->add('name', TextType::class, array( // modif
                 'label' => "Votre pseudo",
                 'row_attr' => [
                     'class' => 'form-group'

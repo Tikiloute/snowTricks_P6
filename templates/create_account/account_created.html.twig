@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compte crée et validé{% endblock %}
+
+{% block body %}
+<h1 class="mb-4 text-center">Page de validation compte</h1>
+{% if user.getIsValid == true %}
+    {% if token == user.getToken %}
+        <p class="text-success fw-bold text-center">Votre compte est maintenant valide</p>
+        <p class="text-center">Veuillez maintenant vous connecter</p>
+        <div class="text-center">
+            <a href="{{path('app_login')}}" class="btn btn-secondary m-auto">Se connecter</a>
+        </div>
+    {% else %}
+        <p class="text-danger fw-bold text-center">Il y a eu une erreur votre compte n'est toujours pas actif !</p>
+    {% endif %}
+{% else %}
+    <p class="text-danger fw-bold text-center">Votre compte n'est toujours pas valide,
+     veuillez réessayer de cliquer sur le lien dans votre boite mail</p>
+    <p class="fw-bold text-center">Si le problème persiste veuillez contacter le we master</p>
+    <div class="text-center">
+        <a href="{{path('app_login')}}" class="btn btn-secondary m-auto">Se connecter</a>
+    </div>
+{% endif %}
+        
+    {% endblock %}
