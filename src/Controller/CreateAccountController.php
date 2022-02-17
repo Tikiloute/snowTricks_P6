@@ -53,6 +53,8 @@ class CreateAccountController extends AbstractController
             </p>
             <a href='http://127.0.0.1:8000/link?user=".$user->getId()."&token=".$user->getToken()."'>Lien vers la validation du compte</a>
             ");
+            $this->addFlash('success', 'Votre compte a bien été crée, veuillez valider votre email 
+            avant de vous connecter');
             return $this->redirectToRoute('app_login');
         }
         return $this->render('create_account/create_account.html.twig', [

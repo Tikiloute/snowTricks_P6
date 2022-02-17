@@ -4,6 +4,9 @@
 
 {% block body %}
 <h1 class="mb-4 text-center">Page de validation compte</h1>
+<div class="text-center">
+    <p class="text-decoration-underline"><img src="{{asset('images/logo.png')}}" width="100vw" alt="">- SnowTricks -</p>
+</div>
 {% if user.getIsValid == true %}
     {% if token == user.getToken %}
         <p class="text-success fw-bold text-center">Votre compte est maintenant valide</p>
