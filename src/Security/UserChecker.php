@@ -16,7 +16,7 @@ class UserChecker implements UserCheckerInterface
             return;
         }
 
-        if ($user->getIsValid() == false) {
+        if ($user->getIsValid() === false) {
             // the message passed to this exception is meant to be displayed to the user
             throw new CustomUserMessageAccountStatusException('L\'utilisateur n\'existe pas encore ou 
             n\'a pas encore validé son compte (avec le mail reçu)');
@@ -30,7 +30,7 @@ class UserChecker implements UserCheckerInterface
         }
 
         // user account is expired, the user may be notified
-        if ($user->getIsValid() == false) {
+        if ($user->getIsValid() === false) {
             throw new AccountExpiredException('Le compte n\'exise plus, veuillez en recréer un');
         }
     }
