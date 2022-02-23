@@ -31,6 +31,9 @@ class Trick
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Commentary::class)]
     private $commentaries;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $category;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -134,6 +137,18 @@ class Trick
                 $commentary->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(string $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

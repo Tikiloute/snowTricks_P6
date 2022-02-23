@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{trick.name | capitalize}}{% endblock %}
+
+{% block body %}
+<h1 class='text-center mt-5'>Page du trick : {{trick.name | capitalize}}</h1>
+<br>
+<br>
+    <div class="card m-auto text-center" style="width: 60%">
+        <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{trick.name | upper }}</h5>
+            <p class="card-text">{{trick.description | capitalize}}
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi porro eveniet fugiat pariatur maxime impedit obcaecati voluptatum modi sint cum. Ex sunt, tenetur autem dicta labore, deserunt dolorum animi odio inventore distinctio quibusdam a? Molestias, beatae? Perferendis similique officia consequuntur totam, veniam delectus vero, debitis quidem saepe ducimus cum, sequi ipsum iste voluptate ullam! Officiis aperiam nostrum accusantium dolore sint accusamus odio non et voluptate. Similique dolorem voluptatibus esse aliquid illo placeat ipsa mollitia delectus omnis non labore ut nemo eius earum sequi quo, dolorum eum voluptatum neque illum laborum eaque. Recusandae, provident accusantium.
+             Odit maiores labore rem omnis dolorum!
+            </p>
+            <p class="card-text">Ce trick appartient à la catégorie : {{trick.category}}</p>
+        </div>
+    </div>
+    <div class="container">
+    <div class="col-12 row mt-3 mb-3 justify-content-md-center">
+        <div class="col-2 m-2">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-2 m-2">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        <div class=" col-2 m-2 rounded">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-2 m-2">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-2 m-2">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-2 m-2">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-2 m-2">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-2 m-2">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-2 m-2">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-2 m-2">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-2 m-2">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-2 m-2">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-2 m-2">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-2 m-2">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-2 m-2">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-2 m-2">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-2 m-2">
+            <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+        </div>
+        
+    </div>
+    </div>
+{% endblock %}

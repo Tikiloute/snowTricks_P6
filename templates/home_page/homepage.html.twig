@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page d'accueil{% endblock %}
+
+{% block body %}
+   
+        <div class="col-12 text-center blockTitleHomepage mb-5">
+            <div>
+                <h1 class="homepageTitle text-center text-light pt-3">Bienvenu sur le site SnowTricks !</h1>
+            </div>
+        </div>
+
+
+        {% for trick in tricks %} 
+            {% if trick.id is divisible by(2) %}
+            <br>
+                <div class="card mb-3 ms-5" style="max-width: 70%">
+                <div class="row g-0 text-center">
+                    <div class="col-md-6 m-auto">
+                    <img src="{{asset('images/snowHomepage.jpg')}}" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-6 m-auto">
+                    <div class="card-body">
+                        <h5 class="card-title">{{trick.name | upper}}</h5>
+                        <p class="card-text">{{trick.description | capitalize}}</p>
+                        <p class="card-text"><small class="text-muted">Ce trick appartient à la catégorie : {{trick.category}}</small></p>
+                        <a href="{{path('trick', {"id" : trick.id})}}" class="btn btn-secondary">En savoir plus </a>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <br>
+            {% else %}
+                <br>
+                <div class="card ms-auto mb-3 me-5" style="max-width: 70%">
+                <div class="row g-0 text-center">
+                    <div class="col-md-6 m-auto">
+                    <div class="card-body">
+                        <h5 class="card-title">{{trick.name | upper }}</h5>
+                        <p class="card-text">{{trick.description | capitalize}}</p>
+                        <p class="card-text"><small class="text-muted">Ce trick appartient à la catégorie : {{trick.category}}</small></p>
+                        <a href="{{path('trick', {"id" : trick.id})}}" class="btn btn-secondary">En savoir plus </a>
+                    </div>
+                    </div>
+                    <div class="col-md-6 m-auto ">
+                    <img src="{{asset('images/snowHomepage.jpg')}}" class="img-fluid rounded-end" alt="...">
+                    </div>
+                </div>
+                </div>
+                <br>
+            {% endif %}
+        {% endfor %}
+
+
+
+
+    
+
+{% endblock %}

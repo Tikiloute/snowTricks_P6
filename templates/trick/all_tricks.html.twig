@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les tricks !{% endblock %}
+
+{% block body %}
+
+{% for trick in tricks %} 
+<br>
+<div class="card mb-3 mx-auto col-11 ms-2 me-2">
+    <div class="row g-0 m-auto">
+        <div class="col-5">
+        <img src="{{asset('images/snowHomepage.jpg')}}" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-6">
+            <div class="card-body">
+                <h5 class="card-title">{{trick.name | upper}}</h5>
+                <p class="card-text">{{trick.description | capitalize}}</p>
+                <p class="card-text"><small class="text-muted">Ce trick appartient à la catégorie : {{trick.category}}</small></p>
+                <a href="{{path('trick', {"id" : trick.id})}}" class="btn btn-secondary">En savoir plus </a>
+            </div>
+        </div> 
+    </div>
+</div>
+<br>
+{% endfor %}
+{% endblock %}
