@@ -14,3 +14,12 @@ body{
     width: 100%;
     max-width: 100%;
 }
+
+.cardUserSpace{
+    min-height: 25vh;
+}
+
+.titleCard{
+ color: #f3969a !important;
+ text-shadow: 1px 1px 1px black;
+}

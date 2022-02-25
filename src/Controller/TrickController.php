@@ -12,11 +12,20 @@ use Symfony\Component\HttpFoundation\Request;
 class TrickController extends AbstractController
 {
     #[Route('/tricks', name: 'tricks')]
-    public function allTricks(TrickRepository $trickRepository): Response
+    public function allTricks(TrickRepository $trickRepository, Request $request): Response
     {
-        $tricks = $trickRepository->findAll();
+        $limit = 4;
+        $page = (int)$request->get("page", 1);
+        $countTricks = $trickRepository->getTotalTricks();
+        $tricks = $trickRepository->getPaginateTricks($page, $limit);
+        $numberOfPages = ceil($countTricks/$limit);
+
         return $this->render('trick/all_tricks.html.twig', [
+            "page" => $page,
             "tricks" => $tricks,
+            "countTricks" => $countTricks,
+            "numberOfPages" => $numberOfPages,
+            "limit" => $limit
         ]);
     }
 

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace administrateur{% endblock %}
+
+{% block body %}
+<h1 class="text-center mt-5 titleCard">Bienvenue sur la page de modification des tricks</h1>
+<br><br>
+
+<div class="row justify-content-md-center">
+{% for trick in tricks %}
+  <div class="col-sm-5 mb-4 ms-2 me-2 text-center">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title titleCard">{{trick.name}}</h5>
+        <p class="card-text">{{trick.description}}</p>
+        <a href="#" class="btn btn-primary">Modifier ce trick</a>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+
+{% endblock %}
