@@ -41,7 +41,10 @@ class ForgottenPasswordController extends AbstractController
             <br>
             <p>Dans le cas où vous n'avez pas fait cette demande, veuillez ignorer cet e-mail</p>
             ");
-        
+
+            $this->addFlash('emailSent', 'Un email vient de vous être envoyé afin de réinitialiser votre
+            mot de passe');
+
         }
         return $this->render('forgotten_password/forgotten_password.html.twig', [
             "form" => $form->createView(),
@@ -76,7 +79,10 @@ class ForgottenPasswordController extends AbstractController
                 $entityManagerInterface->persist($user);
                 $entityManagerInterface->flush();
 
-                $this->addFlash('success', 'Mot de passe modifié avec succès');
+                return $this->redirectToRoute('app_login');
+                $this->addFlash('successResetPassword', 'Mot de passe modifié avec succès');
+
+
             }else {
                 $this->addFlash('danger', 'Le lien de l\'email n\'est plus valide, veuillez refaire une demande de
                 changement de mot de passe');

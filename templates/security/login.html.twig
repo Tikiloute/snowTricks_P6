@@ -3,6 +3,16 @@
 {% block title %}Page de connexion{% endblock %}
 
 {% block body %}
+{% for message in app.flashes('successPasswordModify') %}
+    <div class="alert alert-success text-center mt-2">
+        {{message}}
+    </div>
+{% endfor %}
+{% for message in app.flashes('successResetPassword') %}
+    <div class="alert alert-success text-center mt-2">
+        {{message}}
+    </div>
+{% endfor %}
 <form method="post" class="col-6 m-auto">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>

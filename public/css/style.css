@@ -23,3 +23,7 @@ body{
  color: #f3969a !important;
  text-shadow: 1px 1px 1px black;
 }
+
+textarea{
+    height: 30vh;
+}

@@ -25,7 +25,7 @@ class Trick
     #[ORM\Column(type: 'text')]
     private $description;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Image::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Image::class, orphanRemoval: true, cascade:["persist"])]
     private $images;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Commentary::class)]
@@ -34,10 +34,14 @@ class Trick
     #[ORM\Column(type: 'string', length: 255)]
     private $category;
 
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class)]
+    private $videos;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->commentaries = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -149,6 +153,36 @@ class Trick
     public function setCategory(string $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Video[]
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): self
+    {
+        if ($this->videos->removeElement($video)) {
+            // set the owning side to null (unless already changed)
+            if ($video->getTrick() === $this) {
+                $video->setTrick(null);
+            }
+        }
 
         return $this;
     }

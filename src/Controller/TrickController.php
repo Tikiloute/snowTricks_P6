@@ -15,7 +15,7 @@ class TrickController extends AbstractController
     public function allTricks(TrickRepository $trickRepository, Request $request): Response
     {
         $limit = 4;
-        $page = (int)$request->get("page", 1);
+        $page = max($request->query->getInt("page", 1), 1);
         $countTricks = $trickRepository->getTotalTricks();
         $tricks = $trickRepository->getPaginateTricks($page, $limit);
         $numberOfPages = ceil($countTricks/$limit);
@@ -30,7 +30,11 @@ class TrickController extends AbstractController
     }
 
     #[Route('/trick/{id}', name: 'trick')]
-    public function oneTrick(Trick $trick, TrickRepository $trickRepository, Request $request): Response
+    public function oneTrick(
+        Trick $trick,
+        TrickRepository $trickRepository,
+        Request $request
+    ): Response
     {
         $id = $request->get('id');
         $trick = $trickRepository->find($id);
@@ -38,4 +42,5 @@ class TrickController extends AbstractController
             "trick" => $trick,
         ]);
     }
+
 }

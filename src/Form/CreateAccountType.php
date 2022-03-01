@@ -25,6 +25,8 @@ class CreateAccountType extends AbstractType
             ])
             ->add('password', RepeatedType::class, [
                 'label' => "Votre mot de passe",
+                'type' => PasswordType::class,
+                'invalid_message' => 'Les mots de passe doivent correspondre',
                 'row_attr' => [
                     'class' => 'form-group',
                 'first_options' => ['label' => 'Mot de passe'],

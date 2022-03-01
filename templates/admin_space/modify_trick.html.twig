@@ -8,12 +8,12 @@
 
 <div class="row justify-content-md-center">
 {% for trick in tricks %}
-  <div class="col-sm-5 mb-4 ms-2 me-2 text-center">
+  <div class="col-sm-5 mb-4 text-center">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title titleCard">{{trick.name}}</h5>
+        <h5 class="card-title titleCard">{{trick.name | capitalize}}</h5>
         <p class="card-text">{{trick.description}}</p>
-        <a href="#" class="btn btn-primary">Modifier ce trick</a>
+        <a href="{{path('user_modify_trick', {"id" : trick.id})}}" class="btn btn-primary">Modifier ce trick</a>
       </div>
     </div>
   </div>

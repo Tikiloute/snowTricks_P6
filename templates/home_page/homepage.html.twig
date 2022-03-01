@@ -6,22 +6,22 @@
    
         <div class="col-12 text-center blockTitleHomepage mb-5">
             <div>
-                <h1 class="homepageTitle text-center text-light pt-3">Bienvenue sur le site SnowTricks !</h1>
+                <h1 class="homepageTitle titleCard text-center text-light pt-3">Bienvenue sur le site SnowTricks !</h1>
             </div>
         </div>
-
-
+<iframe width="300" height="300" src="https://www.youtube.com/embed/_OMar04NRZw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         {% for trick in tricks %} 
             {% if trick.id is divisible by(2) %}
             <br>
                 <div class="card mb-3 ms-5" style="max-width: 70%">
-                <div class="row g-0 text-center">
+                <div class="row g-0 text-center shadow">
                     <div class="col-md-6 m-auto">
                     <img src="{{asset('images/snowHomepage.jpg')}}" class="img-fluid rounded-start" alt="...">
                     </div>
                     <div class="col-md-6 m-auto">
                     <div class="card-body">
-                        <h5 class="card-title">{{trick.name | upper}}</h5>
+                        <h5 class="card-title titleCard">{{trick.name | upper}}</h5>
+                        <br>
                         <p class="card-text">{{trick.description | capitalize}}</p>
                         <p class="card-text"><small class="text-muted">Ce trick appartient à la catégorie : {{trick.category}}</small></p>
                         <a href="{{path('trick', {"id" : trick.id})}}" class="btn btn-secondary">En savoir plus </a>
@@ -33,10 +33,11 @@
             {% else %}
                 <br>
                 <div class="card ms-auto mb-3 me-5" style="max-width: 70%">
-                <div class="row g-0 text-center">
+                <div class="row g-0 text-center shadow">
                     <div class="col-md-6 m-auto">
                     <div class="card-body">
-                        <h5 class="card-title">{{trick.name | upper }}</h5>
+                        <h5 class="card-title titleCard">{{trick.name | upper }}</h5>
+                        <br>
                         <p class="card-text">{{trick.description | capitalize}}</p>
                         <p class="card-text"><small class="text-muted">Ce trick appartient à la catégorie : {{trick.category}}</small></p>
                         <a href="{{path('trick', {"id" : trick.id})}}" class="btn btn-secondary">En savoir plus </a>

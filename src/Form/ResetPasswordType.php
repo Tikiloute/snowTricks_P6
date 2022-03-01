@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class ResetPasswordType extends AbstractType
@@ -15,6 +16,7 @@ class ResetPasswordType extends AbstractType
         $builder
         ->add('password', RepeatedType::class, [
             'label' => "Votre mot de passe",
+            'type' => PasswordType::class,
             'row_attr' => [
                 'class' => 'form-group',
             'first_options' => ['label' => 'Mot de passe'],
