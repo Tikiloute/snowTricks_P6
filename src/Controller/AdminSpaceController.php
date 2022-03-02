@@ -20,7 +20,7 @@ class AdminSpaceController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/modifyTrick', name: 'modify_trick')]
+    #[Route('/user/modifyTrick', name: 'modify_trick')]
     public function modifyTrick(TrickRepository $trickRepository, Request $request): Response
     {
         $tricks = $trickRepository->findAll();

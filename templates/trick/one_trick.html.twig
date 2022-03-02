@@ -36,4 +36,46 @@
     {% endfor %}
     </div>
     </div>
+    <br>
+    <hr>
+    <br>
+    <h2 class="text-center">Espace commentaire</h2>
+    <hr class="col-4 m-auto">
+    <br>
+    {% if is_granted('ROLE_USER') %}
+    {{form_start(form)}}
+        <div class="mb-3 col-4 m-auto">{{form_row(form.content, {'label': 'Ajoutez votre commentaire :'})}}</div>
+        <div class="text-center mt-2 mb-3">
+            <input type="submit" value="Envoyez votre commentaire" class="btn btn-secondary">
+        </div>
+    {{form_end(form)}}
+    <br>
+    <hr>
+    {% for commentary in trick.commentaries %}
+    <div class="col-4 m-auto text-center">
+    {% set dates = commentary.date|split(' ')%}
+        <h5>{{commentary.author.name|capitalize}}</h5>
+        <p>A écrit le {{dates[0]}} à {{dates[1]}}</p>
+        <p>{{commentary.content|capitalize}}</p>
+        {% if commentary.author.id == app.user.id %}
+        <div>
+            <a href="" class="text-decoration-none"><img src="{{asset('images/edit.png')}}" alt="" width="30px">Modifier le message</a>
+        </div>
+        <div>
+            <a href="" class="text-danger text-decoration-none"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimer votre commentaire</a>
+        </div>   
+        <br>
+        {% endif %}
+    </div>
+    <hr class="col-3 m-auto">
+    <br>
+    {% endfor %}
+
+    {% else %}
+    <div class="text-center">
+        <h5>Veuillez vous connectez pour pouvoir écrire un commentaire</h5>
+        <a href="{{path("app_login")}}" class="btn btn-secondary">Se connecter</a>
+    </div>
+    <br>
+    {% endif %}
 {% endblock %}

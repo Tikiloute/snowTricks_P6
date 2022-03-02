@@ -90,9 +90,7 @@ class UserSpaceController extends AbstractController
             $this->addFlash('success', 'Le trick à bien été crée !');
             return $this->redirectToRoute('trick', ['id' => $trick->getId()]);
 
-        } else {
-            $this->addFlash('danger', 'Il y a eu un problème !');
-        }
+        } 
 
         return $this->render('user_space/user_create_trick.html.twig', [
            "form" => $form->createView()
@@ -128,15 +126,15 @@ class UserSpaceController extends AbstractController
                 $img->setPath($fichier);
                 $trick->addImage($img);
             };
+            //ici on vérifie si le bouton est 'on' si oui on supprime l'image
             foreach ($trick->getImages() as $image){
                 $id = $image->getId();
                 if(isset($id) && $request->request->get($id) === "on"){
                     $entityManagerInterface->remove($image);
                     $entityManagerInterface->flush();
-                }
-               
-                
+                }  
             }
+            
             $trick->setCategory($category);
             $trick->setAuthor($this->getUser());
             $entityManagerInterface->persist($trick);

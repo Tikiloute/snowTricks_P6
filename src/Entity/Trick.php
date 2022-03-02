@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -29,6 +30,7 @@ class Trick
     private $images;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Commentary::class)]
+    #[OrderBy(["date" => "DESC"])]
     private $commentaries;
 
     #[ORM\Column(type: 'string', length: 255)]
