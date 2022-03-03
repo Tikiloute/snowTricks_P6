@@ -143,6 +143,17 @@ class UserSpaceController extends AbstractController
             return $this->redirectToRoute('user_modify_trick', ['id' => $trick->getId()]);
         } 
 
+        //suppression d'un trick
+        $get = $request->query->get('delete');
+
+        if (isset($get) && $get = true){
+            $entityManagerInterface->remove($trick);
+            $entityManagerInterface->flush();
+            $this->addFlash('warning', 'Votre trick a bien été supprimé');
+            return $this->redirectToRoute('modify_trick');
+            
+        }
+
         return $this->render('user_space/user_modify_trick.html.twig', [
             "form" => $form->createView(),
             "trick" => $trick

@@ -8,6 +8,11 @@
         {{message}}
     </div>
 {% endfor %}
+{% for message in app.flashes('warning') %}
+    <div class="alert alert-warning text-center mt-2">
+        {{message}}
+    </div>
+{% endfor %}
 <h1 class='text-center mt-5 titleCard'>Page du trick : {{trick.name | capitalize}}</h1>
 <br>
 {% if is_granted('ROLE_ADMIN') %}
@@ -58,12 +63,33 @@
         <p>A écrit le {{dates[0]}} à {{dates[1]}}</p>
         <p>{{commentary.content|capitalize}}</p>
         {% if commentary.author.id == app.user.id %}
+
+{# debut de modal #}
+<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel">Confirmation de suppression</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Etes-vous sûr de vouloir supprimer votre commentaire ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <a href="{{path('trick', {"id" : trick.id, 'commentary' : commentary.id})}}" class="btn btn-danger text-light text-decoration-none"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimer votre commentaire</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{# ici fin de modal #}
+
         <div>
-            <a href="" class="text-decoration-none"><img src="{{asset('images/edit.png')}}" alt="" width="30px">Modifier le message</a>
-        </div>
-        <div>
-            <a href="" class="text-danger text-decoration-none"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimer votre commentaire</a>
+        <a href="" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#Modal"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez votre commentaire</a>
+            
         </div>   
+
         <br>
         {% endif %}
     </div>

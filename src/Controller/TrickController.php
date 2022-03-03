@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Commentary;
 use App\Entity\Trick;
 use App\Form\CommentaryType;
+use App\Repository\CommentaryRepository;
 use App\Repository\TrickRepository;
 use DateTime;
 use DateTimeInterface;
@@ -41,6 +42,7 @@ class TrickController extends AbstractController
         TrickRepository $trickRepository,
         Request $request,
         EntityManagerInterface $entityManagerInterface,
+        CommentaryRepository $commentaryRepository
     ): Response
     {
         $commentary = new Commentary();
@@ -60,6 +62,21 @@ class TrickController extends AbstractController
 
             $this->addFlash('success', 'Votre commentaire a bien été ajouté');
         
+        }
+
+        //ici on vérifie la personne qui a écrit le commentaire et celle 
+        //qui veut le supprimer sont les mêmes
+        $get = $request->query->get('commentary');
+
+        if (isset($get)){
+            $comm = $commentaryRepository->find($get);
+        }
+        if (isset($get, $comm) && $this->getUser('id') === $comm->getAuthor()){
+            $entityManagerInterface->remove($comm);
+            $entityManagerInterface->flush();
+            $this->addFlash('warning', 'Votre commentaire a bien été supprimé');
+            return $this->redirectToRoute('trick', ['id' => $trick->getId()]);
+            
         }
 
         return $this->render('trick/one_trick.html.twig', [
