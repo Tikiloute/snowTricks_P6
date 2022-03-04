@@ -36,7 +36,7 @@ class Trick
     #[ORM\Column(type: 'string', length: 255)]
     private $category;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class)]
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true, cascade:["persist"])]
     private $videos;
 
     public function __construct()

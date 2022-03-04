@@ -3,6 +3,16 @@
 {% block title %}Espace modification d'informations{% endblock %}
 
 {% block body %}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success text-center mt-2">
+        {{message}}
+    </div>
+{% endfor %}
+{% for message in app.flashes('warning') %}
+    <div class="alert alert-danger text-center mt-2">
+        {{message}}
+    </div>
+{% endfor %}
 {% for message in app.flashes('danger') %}
     <div class="alert alert-danger text-center mt-2">
         {{message}}
@@ -30,9 +40,9 @@
 
 {# ici fin de modal #}
 
-    <div class="text-center mt-3 mb-3">
-        <a href="" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#Modal"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez votre commentaire</a>    
-    </div> 
+<div class="text-center mt-3 mb-3">
+    <a href="" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#Modal"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez votre commentaire</a>    
+</div> 
 
 <div class="col-6 m-auto">
 {{form_start(form)}}
@@ -59,8 +69,17 @@
         </div>
             
     {% endfor %}
+    {% for trickVideo in trick.videos %}
+        <div class="mb-4 mt-4 row col-4">
+            <iframe width="300" height="300" src="{{trickVideo.url}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <label class="text-center mt-2" for="deleteImg">Supprimer cette video</label>
+            <input type="checkbox" name="{{trickVideo.id}}" id="deleteImg">
+        </div>
+            
+    {% endfor %}
     </div>
         <div class="mb-3">{{form_row(form.images, {'label': 'Ajoutez une  ou plusieurs image(s) :'})}}</div>
+        <div class="mb-3">{{form_row(form.video, {'label': 'Ajoutez une vidéo youtube et dailymotion uniquement (mettez l\'url) :'})}}</div>
 
 </div>
     <div class="text-center">

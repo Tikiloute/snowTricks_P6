@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\Trick;
+use App\Entity\Video;
 use App\Form\CreateTrickType;
 use App\Form\ModifyTrickType;
 use App\Form\ModifyPasswordType;
@@ -82,6 +83,43 @@ class UserSpaceController extends AbstractController
                 $img->setPath($fichier);
                 $trick->addImage($img);
             };
+
+            //partie vidéo ici
+            $videoForm = $form->get('video')->getData();
+            $video = new Video();
+            if (isset($videoForm) && !is_null($videoForm)){
+                if (str_contains($videoForm, 'youtube')){
+                    $urlExplode = explode('/watch?v=', $videoForm);
+                    if (str_contains($urlExplode[1], "&")){
+                        $explodeUrlExplode = explode('&', $urlExplode[1]);
+                        $urlYoutube = "https://www.youtube.com/embed/".$explodeUrlExplode[0];
+                        $video->setUrl($urlYoutube);
+                        $trick->addVideo($video);
+                    } else {
+                        $urlYoutube = "https://www.youtube.com/embed/".$urlExplode[1];
+                        $video->setUrl($urlYoutube);
+                        $trick->addVideo($video);
+                    }        
+                } elseif (str_contains($videoForm, 'dailymotion')){
+                    $urlExplode = explode('video/', $videoForm);
+                    if (str_contains($urlExplode[1], "?")){
+                        $explodeUrlExplode = explode('?', $urlExplode[1]);
+                        $urlDailyMotion = "https://www.dailymotion.com/embed/video/".$explodeUrlExplode[0];
+                        $video->setUrl($urlDailyMotion);
+                        $trick->addVideo($video);
+                    } else {
+                        $urlDailyMotion = "https://www.dailymotion.com/embed/video/".$urlExplode[1];
+                        $video->setUrl($urlDailyMotion);
+                        $trick->addVideo($video);
+                    }
+                } else {
+                    $this->addFlash('warning', 'La vidéo n\'a pas été ajoutée car ce n\'est pas 
+                    une vidéo youtube/dailymotion ou que l\'url était érronée');
+                }
+            }
+            
+            //fin partie video
+
             $trick->setCategory($category);
             $trick->setAuthor($this->getUser());
             $entityManagerInterface->persist($trick);
@@ -134,12 +172,55 @@ class UserSpaceController extends AbstractController
                     $entityManagerInterface->flush();
                 }  
             }
+
+            //partie vidéo ici
+            $videoForm = $form->get('video')->getData();
+            $video = new Video();
+            if (isset($videoForm) && !is_null($videoForm)){
+                if (str_contains($videoForm, 'youtube')){
+                    $urlExplode = explode('/watch?v=', $videoForm);
+                    if (str_contains($urlExplode[1], "&")){
+                        $explodeUrlExplode = explode('&', $urlExplode[1]);
+                        $urlYoutube = "https://www.youtube.com/embed/".$explodeUrlExplode[0];
+                        $video->setUrl($urlYoutube);
+                        $trick->addVideo($video);
+                    } else {
+                        $urlYoutube = "https://www.youtube.com/embed/".$urlExplode[1];
+                        $video->setUrl($urlYoutube);
+                        $trick->addVideo($video);
+                    }        
+                } elseif (str_contains($videoForm, 'dailymotion')){
+                    $urlExplode = explode('video/', $videoForm);
+                    if (str_contains($urlExplode[1], "?")){
+                        $explodeUrlExplode = explode('?', $urlExplode[1]);
+                        $urlDailyMotion = "https://www.dailymotion.com/embed/video/".$explodeUrlExplode[0];
+                        $video->setUrl($urlDailyMotion);
+                        $trick->addVideo($video);
+                    } else {
+                        $urlDailyMotion = "https://www.dailymotion.com/embed/video/".$urlExplode[1];
+                        $video->setUrl($urlDailyMotion);
+                        $trick->addVideo($video);
+                    }
+                } else {
+                    $this->addFlash('warning', 'La vidéo n\'a pas été ajoutée car ce n\'est pas 
+                    une vidéo youtube/dailymotion ou que l\'url était érronée');
+                }
+            }
+            
+            foreach ($trick->getVideos() as $video){
+                $id = $video->getId();
+                if(isset($id) && $request->request->get($id) === "on"){
+                    $entityManagerInterface->remove($video);
+                    $entityManagerInterface->flush();
+                }  
+            }
+            //fin partie video
             
             $trick->setCategory($category);
             $trick->setAuthor($this->getUser());
             $entityManagerInterface->persist($trick);
             $entityManagerInterface->flush();
-            $this->addFlash('success', 'Le trick à bien été crée !');
+            $this->addFlash('success', 'Le trick à bien été modifié !');
             return $this->redirectToRoute('user_modify_trick', ['id' => $trick->getId()]);
         } 
 

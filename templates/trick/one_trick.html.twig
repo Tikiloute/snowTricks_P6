@@ -16,8 +16,34 @@
 <h1 class='text-center mt-5 titleCard'>Page du trick : {{trick.name | capitalize}}</h1>
 <br>
 {% if is_granted('ROLE_ADMIN') %}
+{# debut de modal #}
+<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel">Confirmation de suppression de trick</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Etes-vous sûr de vouloir supprimer ce trick ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            <a href="{{path('user_modify_trick', {"id" : trick.id, "delete" : true})}}" class="btn btn-danger"><img src="{{asset('images/poubelle.png')}}" class="me-3" alt="" width="30px">Supprimer ce trick <img src="" alt=""></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{# ici fin de modal #}
+
+<div class="text-center mt-3 mb-3">
+    <a href="" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#Modal"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez ce trick</a>    
+</div> 
+{% endif %}
+{% if is_granted('ROLE_USER')  %}
 <div class="text-center">
-    <a href="#" class="text-danger text-decoration-none"><img src="{{asset('images/poubelle.png')}}" alt="" width="40px"> Supprimer le trick ?</a>
+  <a href="{{path('user_modify_trick', {"id" : trick.id})}}" class="btn btn-primary"><img src="{{asset('images/edit.png')}}" alt="" width="30px">Modifier ce trick</a>
 </div>
 {% endif %}
 <br>
@@ -32,11 +58,16 @@
             <p class="card-text">Ce trick appartient à la catégorie : {{trick.category}}</p>
         </div>
     </div>
-    <div class="container">
+    <div class="container col-8">
     <div class="row mt-3 mb-3 justify-content-md-center">
     {% for image in trick.images %}
         <div class="col-2 m-2">
             <img src="{{asset('uploads/' ~ image.path )}}" class="card-img-top" alt="...">
+        </div>
+    {% endfor %}
+    {% for video in trick.videos %}
+        <div class="w-25 m-2">
+          <iframe class="m-2" src="{{video.url}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     {% endfor %}
     </div>
@@ -86,8 +117,7 @@
 {# ici fin de modal #}
 
         <div>
-        <a href="" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#Modal"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez votre commentaire</a>
-            
+            <a href="" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#Modal"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez votre commentaire</a>    
         </div>   
 
         <br>
