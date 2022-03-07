@@ -55,9 +55,15 @@
       <div class="card-body">
         <h5 class="card-title titleCard">Vos commentaires</h5>
         <br>
-        <p class="card-text">Vous avez commenté à XXX reprises</p>
+        <p class="card-text">Vous avez commenté à {{count}} 
+        {% if count <= 1 %}
+          reprise
+        {% else %}
+          reprises
+        {% endif %}
+        </p>
         <br>
-        <a href="#" class="btn btn-primary">Aller voir vos commentaires</a>
+        <a href="{{path('user_view_commentary')}}" class="btn btn-primary">Aller voir vos commentaires</a>
       </div>
     </div>
   </div>

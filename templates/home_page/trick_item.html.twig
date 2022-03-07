@@ -1,0 +1,29 @@
+<br>
+<div class="card mb-3 {{ direction == 'left' ? 'ms-5' : 'me-5 ms-auto' }}" style="max-width: 70%">
+	<div class="row g-0 text-center shadow">
+		{% if direction == 'left' %}
+			<div class="col-md-6 m-auto">
+				<img src="{{asset('images/snowHomepage.jpg')}}" class="img-fluid rounded-start" alt="...">
+			</div>
+		{% endif %}
+		<div class="col-md-6 m-auto">
+			<div class="card-body">
+				<h5 class="card-title titleCard">{{trick.name | upper}}</h5>
+				<br>
+				<p class="card-text">{{trick.description | capitalize}}</p>
+				<p class="card-text">
+					<small class="text-muted">Ce trick appartient à la catégorie :
+						{{trick.category}}</small>
+				</p>
+				<a href="{{path('trick', {"id" : trick.id})}}" class="btn btn-secondary">En savoir plus
+				</a>
+			</div>
+		</div>
+		{% if direction == 'right' %}
+			<div class="col-md-6 m-auto">
+				<img src="{{asset('images/snowHomepage.jpg')}}" class="img-fluid rounded-end" alt="...">
+			</div>
+		{% endif %}
+	</div>
+</div>
+<br>

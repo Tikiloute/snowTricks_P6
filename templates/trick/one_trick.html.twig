@@ -66,7 +66,7 @@
         </div>
     {% endfor %}
     {% for video in trick.videos %}
-        <div class="w-25 m-2">
+        <div class="w-25 col-2 m-2 ms-3">
           <iframe class="m-2" src="{{video.url}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     {% endfor %}
@@ -96,7 +96,7 @@
         {% if commentary.author.id == app.user.id %}
 
 {# debut de modal #}
-<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalCom" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -117,7 +117,7 @@
 {# ici fin de modal #}
 
         <div>
-            <a href="" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#Modal"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez votre commentaire</a>    
+            <a href="" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalCom"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez votre commentaire</a>    
         </div>   
 
         <br>

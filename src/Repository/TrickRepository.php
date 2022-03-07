@@ -35,6 +35,20 @@ class TrickRepository extends ServiceEntityRepository
     }
 
     /**
+     * Get trick by 10 (for hompage)
+     */
+    public function getTrickHomePage()
+    {
+        return $this->createQueryBuilder('t')
+        ->orderBy('t.id', 'ASC')
+        ->setFirstResult(0)
+        ->setMaxResults(10)
+        ->getQuery()
+        ->getResult()
+    ;
+    }
+
+    /**
      * get total of tricks
      */
     public function getTotalTricks()

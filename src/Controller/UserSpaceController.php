@@ -10,6 +10,7 @@ use App\Form\ModifyTrickType;
 use App\Form\ModifyPasswordType;
 use App\Repository\UserRepository;
 use App\Form\ModifyInformationsType;
+use App\Repository\CommentaryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,10 +21,16 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserSpaceController extends AbstractController
 {
     #[Route('/user/space', name: 'user_space')]
-    public function index(): Response
+    public function index(UserRepository $userRepository): Response
     {
+
+        $userMail = $this->getUser()->getUserIdentifier();
+        $user = $userRepository->findOneBy(['email' => $userMail]);
+        $count = count($user->getCommentaries());
         return $this->render('user_space/user_space.html.twig', [
             'controller_name' => 'UserSpaceController',
+            'count' => $count,
+            'user' => $user
         ]);
     }
 
@@ -239,6 +246,36 @@ class UserSpaceController extends AbstractController
             "form" => $form->createView(),
             "trick" => $trick
          ]);
+    }
+
+    #[Route('/user/viewCommentary', name: 'user_view_commentary')]
+    public function viewCommentary(
+        UserRepository $userRepository, 
+        EntityManagerInterface $entityManagerInterface,
+        Request $request,
+        CommentaryRepository $commentaryRepository
+    ): Response
+    {
+        $userConnected = $this->getUser()->getUserIdentifier();
+        $user = $userRepository->findOneBy(["email" => $userConnected]);
+
+        $get = $request->query->get('commentary');
+
+        if (isset($get)){
+            $comm = $commentaryRepository->find($get);
+        }
+        if (isset($get, $comm) && $this->getUser('id') === $comm->getAuthor()){
+            $entityManagerInterface->remove($comm);
+            $entityManagerInterface->flush();
+            $this->addFlash('warning', 'Votre commentaire a bien été supprimé');
+            return $this->redirectToRoute('user_view_commentary');
+            
+        }
+
+        return $this->render('user_space/user_view_commentaries.html.twig', [
+            "user" => $user,
+         ]);
+
     }
 
 }

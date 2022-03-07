@@ -65,7 +65,30 @@
     </header>
     <body>
         {% block body %}
-            
+           
         {% endblock %}
+    <footer class="footer-04  text-light ">
+        <div class="w-100 mt-5 border-top py-5 bottom bg-secondary">
+        <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-lg-4">
+            <a class="navbar-brand text-light" href="#"> <img src="{{asset('/images/logo.png')}}" width="70px" alt=""> SnowTricks</a>
+            </div>
+            <div class="col-md-4 col-lg-4">
+                <p class="copyright">
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved 
+                </p>
+            </div>
+            <div class="col-md-4 col-lg-4 text-md-right ">
+                <p class="mb-0 list-unstyled text-light">
+                <a class="mr-md-3" href="#">Terms</a>
+                <a class="mr-md-3" href="#">Privacy</a>
+                <a class="mr-md-3" href="#">Compliances</a>
+                </p>
+            </div>
+        </div>
+        </div>
+        </div>
+    </footer>
     </body>
 </html>

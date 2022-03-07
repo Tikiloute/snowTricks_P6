@@ -1,59 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Page d'accueil{% endblock %}
+{% block title %}Page d'accueil
+{% endblock %}
 
 {% block body %}
-   
-        <div class="col-12 text-center blockTitleHomepage mb-5">
-            <div>
-                <h1 class="homepageTitle titleCard text-center text-light pt-3">Bienvenue sur le site SnowTricks !</h1>
-            </div>
-        </div>
-        {% for trick in tricks %} 
-            {% if trick.id is divisible by(2) %}
-            <br>
-                <div class="card mb-3 ms-5" style="max-width: 70%">
-                <div class="row g-0 text-center shadow">
-                    <div class="col-md-6 m-auto">
-                    <img src="{{asset('images/snowHomepage.jpg')}}" class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-md-6 m-auto">
-                    <div class="card-body">
-                        <h5 class="card-title titleCard">{{trick.name | upper}}</h5>
-                        <br>
-                        <p class="card-text">{{trick.description | capitalize}}</p>
-                        <p class="card-text"><small class="text-muted">Ce trick appartient à la catégorie : {{trick.category}}</small></p>
-                        <a href="{{path('trick', {"id" : trick.id})}}" class="btn btn-secondary">En savoir plus </a>
-                    </div>
-                    </div>
-                </div>
-                </div>
-                <br>
-            {% else %}
-                <br>
-                <div class="card ms-auto mb-3 me-5" style="max-width: 70%">
-                <div class="row g-0 text-center shadow">
-                    <div class="col-md-6 m-auto">
-                    <div class="card-body">
-                        <h5 class="card-title titleCard">{{trick.name | upper }}</h5>
-                        <br>
-                        <p class="card-text">{{trick.description | capitalize}}</p>
-                        <p class="card-text"><small class="text-muted">Ce trick appartient à la catégorie : {{trick.category}}</small></p>
-                        <a href="{{path('trick', {"id" : trick.id})}}" class="btn btn-secondary">En savoir plus </a>
-                    </div>
-                    </div>
-                    <div class="col-md-6 m-auto ">
-                    <img src="{{asset('images/snowHomepage.jpg')}}" class="img-fluid rounded-end" alt="...">
-                    </div>
-                </div>
-                </div>
-                <br>
-            {% endif %}
-        {% endfor %}
 
-
-
-
+	<div class="col-12 text-center blockTitleHomepage mb-5">
+		<div>
+			<h1 class="homepageTitle titleCard text-center text-light pt-3">Bienvenue sur le site SnowTricks !</h1>
+		</div>
+	</div>
+	{% set quincunx = 0 %}
+	{% for trick in tricks %}
+		{% if quincunx == 0 %}
+        {{ include("home_page/trick_item.html.twig", {'trick' : trick, 'direction' : 'left'}) }}
+			{% set quincunx = 1 %}
+		{% else %}
+        {{ include("home_page/trick_item.html.twig", {'trick' : trick, 'direction' : 'right'}) }}
+			{% set quincunx = 0 %}
+		{% endif %}
+	{% endfor %}
     
-
 {% endblock %}

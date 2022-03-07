@@ -18,7 +18,7 @@
         {{message}}
     </div>
 {% endfor %}
-<h1 class='text-center mt-5 titleCard'>Vous êtes actuellement sur la page de modification d'un trick</h1>
+<h1 class='text-center mt-5 mb-3 titleCard'>Vous êtes actuellement sur la page de modification du {{trick.name}}</h1>
 {# debut de modal #}
 <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -39,9 +39,9 @@
 </div>
 
 {# ici fin de modal #}
-
 <div class="text-center mt-3 mb-3">
-    <a href="" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#Modal"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez votre commentaire</a>    
+    <a href="{{path('trick', {"id" : trick.id})}}" class="btn btn-danger"><img src="{{asset('images/plane.png')}}" class="me-3" alt="" width="30px">Aller sur ce trick <img src="" alt=""></a>
+    <a href="" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#Modal"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez ce trick</a>    
 </div> 
 
 <div class="col-6 m-auto">
