@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page d'accueil
+{% endblock %}
+
+{% block body %}
+
+	<div class="col-12 text-center blockTitleHomepage mb-5">
+		<div>
+			<h1 class="homepageTitle titleCard text-center text-light pt-3">Bienvenue sur le site SnowTricks !</h1>
+		</div>
+	</div>
+	{% set quincunx = 0 %}
+	{% for trick in tricks %}
+		{% if quincunx == 0 %}
+        {{ include("home_page/trick_item.html.twig", {'trick' : trick, 'direction' : 'left'}) }}
+			{% set quincunx = 1 %}
+		{% else %}
+        {{ include("home_page/trick_item.html.twig", {'trick' : trick, 'direction' : 'right'}) }}
+			{% set quincunx = 0 %}
+		{% endif %}
+	{% endfor %}
+    
+{% endblock %}

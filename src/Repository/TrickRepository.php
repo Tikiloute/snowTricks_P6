@@ -19,6 +19,50 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
+    /**
+     * return all tricks with paging
+     *
+     */
+    public function getPaginateTricks($page, $limit)
+    {
+        return $this->createQueryBuilder('t')
+        ->orderBy('t.id', 'ASC')
+        ->setFirstResult(($page * $limit) - $limit)
+        ->setMaxResults($limit)
+        ->getQuery()
+        ->getResult()
+    ;
+    }
+
+    /**
+     * Get trick by 10 (for hompage)
+     */
+    public function getTrickHomePage()
+    {
+        return $this->createQueryBuilder('t')
+        ->orderBy('t.id', 'ASC')
+        ->setFirstResult(0)
+        ->setMaxResults(10)
+        ->getQuery()
+        ->getResult()
+    ;
+    }
+
+    /**
+     * get total of tricks
+     */
+    public function getTotalTricks()
+    {
+        return $this->createQueryBuilder('t')
+        ->select("COUNT('t')")
+        ->getQuery()
+        //getSingleScalarResult return only string int result (not arrays...)
+        ->getSingleScalarResult()
+    ;
+    }
+
+
+
     // /**
     //  * @return Trick[] Returns an array of Trick objects
     //  */

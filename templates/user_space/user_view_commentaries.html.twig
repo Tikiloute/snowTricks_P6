@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vos commentaires{% endblock %}
+
+{% block body %}
+{% for message in app.flashes('warning') %}
+    <div class="alert alert-danger text-center mt-2">
+        {{message}}
+    </div>
+{% endfor %}
+<h1 class="titleCard text-center mt-3 mb-5">Page concernant vos commentaires</h1>
+    {% for commentary in user.commentaries %}
+    <div class="col-sm-5 mb-4 text-center m-auto">
+        <div class="card">
+        <div class="card-body">
+            <h5 class="card-title titleCard">{{commentary.trick.name | capitalize}}</h5>
+            <p>{{commentary.date}}</p>
+            <p class="card-text">{{commentary.content}}</p>
+    {# debut de modal #}
+        <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Confirmation de suppression de trick</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Etes-vous sûr de vouloir supprimer ce commentaire ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <a href="{{path('user_view_commentary', {'commentary' : commentary.id})}}" class="btn btn-danger"><img src="{{asset('images/poubelle.png')}}" class="me-3" alt="" width="30px">Supprimer ce commentaire <img src="" alt=""></a>
+            </div>
+            </div>
+        </div>
+        </div>
+    {# ici fin de modal #}
+    <div class="text-center mt-3 mb-3">
+        <a href="" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#Modal"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez votre commentaire</a>    
+        <a href="{{path('trick', {"id" : commentary.trick.id})}}" class="btn btn-primary">Aller sur le trick</a>
+    </div>             
+        </div>
+        </div>
+    </div>
+
+    {% endfor %}
+
+{% endblock %}

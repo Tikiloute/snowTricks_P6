@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Trick;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -29,7 +30,7 @@ class AppFixtures extends Fixture
             $u1,
             $plaintextPassword
         );
-        $u1->setEmail('bruno.etcheverry@hotmail.fr')
+        $u1->setEmail('bruno.etcheverry@celemma.eu')
             ->setRoles(array('ROLE_ADMIN'))
             ->setName('Bruno')
             ->setPassword($hashedPassword);
