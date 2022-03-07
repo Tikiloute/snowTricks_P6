@@ -174,11 +174,11 @@ class UserSpaceController extends AbstractController
             }
 
             //partie vidéo ici
-            $videoForm = $form->get('video')->getData();
+            $formVideo = $form->get('video')->getData();
             $video = new Video();
-            if (isset($videoForm) && !is_null($videoForm)){
-                if (str_contains($videoForm, 'youtube')){
-                    $urlExplode = explode('/watch?v=', $videoForm);
+            if (isset($formVideo) && !is_null($formVideo)){
+                if (str_contains($formVideo, 'youtube')){
+                    $urlExplode = explode('/watch?v=', $formVideo);
                     if (str_contains($urlExplode[1], "&")){
                         $explodeUrlExplode = explode('&', $urlExplode[1]);
                         $urlYoutube = "https://www.youtube.com/embed/".$explodeUrlExplode[0];
@@ -189,8 +189,8 @@ class UserSpaceController extends AbstractController
                         $video->setUrl($urlYoutube);
                         $trick->addVideo($video);
                     }        
-                } elseif (str_contains($videoForm, 'dailymotion')){
-                    $urlExplode = explode('video/', $videoForm);
+                } elseif (str_contains($formVideo, 'dailymotion')){
+                    $urlExplode = explode('video/', $formVideo);
                     if (str_contains($urlExplode[1], "?")){
                         $explodeUrlExplode = explode('?', $urlExplode[1]);
                         $urlDailyMotion = "https://www.dailymotion.com/embed/video/".$explodeUrlExplode[0];
