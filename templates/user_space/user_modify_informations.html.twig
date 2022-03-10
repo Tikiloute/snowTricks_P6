@@ -1,24 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Espace modification d'informations{% endblock %}
+{% block title %}Espace modification d'informations
+{% endblock %}
 
 {% block body %}
 
-<h1 class='text-center mt-5 titleCard'>Vous êtes actuellement sur la page de modification de vos informations personnelles</h1>
-<br>
-<br>
-{{form_start(form)}}
-<div class="form-group col-xs-12 col-sm-6 col-6 m-auto">
-    <div class="mb-3 ">{{form_row(form.email, {'label': 'Votre email :'})}}</div>
-    <div class="mb-3 form-group">{{form_row(form.name, {'label': 'Votre pseudo :'})}}</div>
-    <div class="text-center">
-        <button class="btn btn-lg btn-primary mt-3 ms-3" type="submit">
-            Modifiez
-        </button>
-    </div>
-</div>
-{{form_end(form)}}
-
+	<h1 class='text-center mt-5 titleCard'>Vous êtes actuellement sur la page de modification de vos informations personnelles</h1>
+	<br>
+	<div class="text-center">
+		<a href="{{path('user_space')}}" class="ms-5 mb-4 btn btn-outline-secondary bg-light">Retour dans votre espace</a>
+	</div>
+	<br>
+	<br>
+	{{form_start(form)}}
+	<div class="form-group col-xs-12 col-sm-6 col-6 m-auto">
+		<div class="mb-3 ">{{form_row(form.email, {'label': 'Votre email :'})}}</div>
+		<div class="mb-3 form-group">{{form_row(form.name, {'label': 'Votre pseudo :'})}}</div>
+		<div class="text-center">
+			<button class="btn btn-lg btn-primary mt-3 ms-3" type="submit">
+				Modifiez
+			</button>
+		</div>
+	</div>
+	{{form_end(form)}}
 
 
 {% endblock %}

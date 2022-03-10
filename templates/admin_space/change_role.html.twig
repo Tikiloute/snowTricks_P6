@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace administrateur
+{% endblock %}
+
+{% block body %}
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success text-center mt-2">
+			{{message}}
+		</div>
+	{% endfor %}
+	{% for message in app.flashes('danger') %}
+		<div class="alert alert-danger text-center mt-2">
+			{{message}}
+		</div>
+	{% endfor %}
+	<h1 class="text-center mt-5 titleCard">Bienvenue sur la page de modification des rôles</h1>
+	<br>
+	<div class="text-center">
+		<a href="{{path('admin_space')}}" class="mb-4 me-2 btn btn-outline-info bg-light">Retour dans votre espace admin</a>
+	</div>
+	<br>
+	{{form_start(form)}}
+	<div class="col-6 m-auto">
+		<div class="mb-3">{{form_row(form.email, {'label': 'Email :'})}}</div>
+		<div class="mb-3">
+			<label for="category">Choisissez le rôle :
+			</label>
+			<select name="category" id="category" class="bg-secondary text-light rounded p-1 shadow ms-2" required>
+				<option selected="selected" value="" disabled>Choississez le rôle</option>
+				<option value="ROLE_USER">Rôle utilisateur</option>
+				<option value="ROLE_ADMIN">Rôle administrateur</option>
+			</select>
+		</div>
+		<div class="text-center">
+			<input type="submit" class="btn btn-secondary" value="Validez">
+		</div>
+	</div>
+	{{form_end(form)}}
+{% endblock %}

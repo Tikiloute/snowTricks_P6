@@ -1,85 +1,107 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tous les tricks !{% endblock %}
+{% block title %}Tous les tricks !
+{% endblock %}
 
 {% block body %}
 
-<br>
+	<br>
 
-<nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-center">
-    {% if page == 1 %}
-    <li class="page-item disabled">
-    {% else %}
-    <li class="page-item">
-    {% endif %}
-      <a class="page-link" href="?page={{(page)-1}}">Précédente</a>
-    </li>
-{% for i in 1..(numberOfPages) %}
-    {% if page == i %}
-        <li class="page-item active"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
-    {% else %}
-        <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
-    {% endif %}
-{% endfor %}
-    {% if page == numberOfPages %}
-    <li class="page-item disabled">
-    {% else %}
-    <li class="page-item">
-    {% endif %}
-      <a class="page-link" href="?page={{(page)+1}}">Next</a>
-    </li>
-  </ul>
-</nav>
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center">
+			{% if page == 1 %}
+				<li class="page-item disabled">
+				{% else %}
+					<li class="page-item">
+					{% endif %}
+					<a class="page-link" href="?page={{(page)-1}}">Précédente</a>
+				</li>
+				{% for i in 1..(numberOfPages) %}
+					{% if page == i %}
+						<li class="page-item active">
+							<a class="page-link" href="?page={{i}}">{{i}}</a>
+						</li>
+					{% else %}
+						<li class="page-item">
+							<a class="page-link" href="?page={{i}}">{{i}}</a>
+						</li>
+					{% endif %}
+				{% endfor %}
+				{% if page == numberOfPages %}
+					<li class="page-item disabled">
+					{% else %}
+						<li class="page-item">
+						{% endif %}
+						<a class="page-link" href="?page={{(page)+1}}">Next</a>
+					</li>
+				</ul>
+			</nav>
 
-<h1 class="text-center titleCard mt-4 mb-4">Page de l'ensemble des tricks</h1>
+			<h1 class="text-center titleCard mt-4 mb-4">Page de l'ensemble des tricks</h1>
 
-{% for trick in tricks %}
-  <div class="card mb-3 m-auto" style="max-width: 80%;">
-  <div class="row g-0">
-    <div class="col-md-4">
-            <img src="{{asset('images/snowHomepage.jpg')}}" class="img-fluid rounded-start" alt="...">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title titleCard text-center">{{trick.name | upper}}</h5>
-        <br>
-        <div class="card-text text-center">{{ trick.description | capitalize }}</div>
-        <p class="card-text text-center"><small class="text-muted">Ce trick appartient à la catégorie : {{trick.category}}</small></p>
-      </div>
-      <br>
-      <div class="text-center">
-        <a href="{{path('trick', {"id" : trick.id})}}" class="btn btn-secondary">En savoir plus </a>
-      </div>
-    </div>
-  </div>
-</div>
-{% endfor %}
+			{% for trick in tricks %}
+				<div class="card mb-3 m-auto" style="max-width: 80%;">
+					<div class="row g-0">
+						<div class="col-md-4 col-4 m-auto mt-0 mb-0">
+				{% if trick.images|length %}
+					{% if trick.images| length > 1 %}
+						{% set rand = trick.images[random((trick.images|length)-1)] %}
+						<img src="{{asset('uploads/' ~ rand.path)}}" class="img-fluid rounded-start trickPicture" alt="...">
+					{% else %}
+						<img src="{{asset('uploads/' ~ trick.images[0].path)}}" class="img-fluid rounded-start trickPicture" alt="...">
+					{% endif %}
+				{% else %}
+					<img src="{{asset('images/snowHomepage.jpg')}}" class="img-fluid rounded-start trickPicture" alt="...">
+				{% endif %}
+			</div>
+						<div class="col-md-8">
+							<div class="card-body">
+								<h5 class="card-title titleCard text-center">{{trick.name | upper}}</h5>
+								<br>
+								<div class="card-text text-center">{{ trick.description | capitalize }}</div>
+								<p class="card-text text-center">
+									<small class="text-muted">Ce trick appartient à la catégorie :
+										{{trick.category}}</small>
+								</p>
+							</div>
+							<br>
+							<div class="text-center">
+								<a href="{{path('trick', {"id" : trick.id})}}" class="btn btn-secondary">En savoir plus
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
 
-<nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-center">
-    {% if page == 1 %}
-    <li class="page-item disabled">
-    {% else %}
-    <li class="page-item">
-    {% endif %}
-      <a class="page-link" href="?page={{(page)-1}}">Précédente</a>
-    </li>
-{% for i in 1..(numberOfPages) %}
-    {% if page == i %}
-        <li class="page-item active"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
-    {% else %}
-        <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
-    {% endif %}
-{% endfor %}
-    {% if page == numberOfPages %}
-    <li class="page-item disabled">
-    {% else %}
-    <li class="page-item">
-    {% endif %}
-      <a class="page-link" href="?page={{(page)+1}}">Next</a>
-    </li>
-  </ul>
-</nav>
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-center">
+					{% if page == 1 %}
+						<li class="page-item disabled">
+						{% else %}
+							<li class="page-item">
+							{% endif %}
+							<a class="page-link" href="?page={{(page)-1}}">Précédente</a>
+						</li>
+						{% for i in 1..(numberOfPages) %}
+							{% if page == i %}
+								<li class="page-item active">
+									<a class="page-link" href="?page={{i}}">{{i}}</a>
+								</li>
+							{% else %}
+								<li class="page-item">
+									<a class="page-link" href="?page={{i}}">{{i}}</a>
+								</li>
+							{% endif %}
+						{% endfor %}
+						{% if page == numberOfPages %}
+							<li class="page-item disabled">
+							{% else %}
+								<li class="page-item">
+								{% endif %}
+								<a class="page-link" href="?page={{(page)+1}}">Next</a>
+							</li>
+						</ul>
+					</nav>
 
-{% endblock %}
+				{% endblock %}

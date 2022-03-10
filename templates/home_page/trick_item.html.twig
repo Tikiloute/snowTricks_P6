@@ -1,9 +1,18 @@
 <br>
-<div class="card mb-3 {{ direction == 'left' ? 'ms-5' : 'me-5 ms-auto' }}" style="max-width: 70%">
+<div class="card mb-3 {{ direction == 'left' ? 'ms-5' : 'me-5 ms-auto' }}" style="max-width: 70%;">
 	<div class="row g-0 text-center shadow">
 		{% if direction == 'left' %}
-			<div class="col-md-6 m-auto">
-				<img src="{{asset('images/snowHomepage.jpg')}}" class="img-fluid rounded-start" alt="...">
+			<div class="col-md-6 col-4 m-auto mt-0 mb-0">
+				{% if trick.images|length %}
+					{% if trick.images| length > 1 %}
+						{% set rand = trick.images[random((trick.images|length)-1)] %}
+						<img src="{{asset('uploads/' ~ rand.path)}}" class="img-fluid rounded-start trickPicture" alt="...">
+					{% else %}
+						<img src="{{asset('uploads/' ~ trick.images[0].path)}}" class="img-fluid rounded-start trickPicture" alt="...">
+					{% endif %}
+				{% else %}
+					<img src="{{asset('images/snowHomepage.jpg')}}" class="img-fluid rounded-start trickPicture" alt="...">
+				{% endif %}
 			</div>
 		{% endif %}
 		<div class="col-md-6 m-auto">
@@ -20,8 +29,17 @@
 			</div>
 		</div>
 		{% if direction == 'right' %}
-			<div class="col-md-6 m-auto">
-				<img src="{{asset('images/snowHomepage.jpg')}}" class="img-fluid rounded-end" alt="...">
+			<div class="col-md-6 m-auto mt-0 mb-0">
+				{% if trick.images|length %}
+					{% if trick.images| length > 1 %}
+						{% set rand = trick.images[random((trick.images|length)-1)] %}
+						<img src="{{asset('uploads/' ~ rand.path)}}" class="img-fluid rounded-end trickPicture" alt="...">
+					{% else %}
+						<img src="{{asset('uploads/' ~ trick.images[0].path)}}" class="img-fluid rounded-end trickPicture" alt="...">
+					{% endif %}
+				{% else %}
+					<img src="{{asset('images/snowHomepage.jpg')}}" class="img-fluid rounded-end trickPicture" alt="...">
+				{% endif %}
 			</div>
 		{% endif %}
 	</div>

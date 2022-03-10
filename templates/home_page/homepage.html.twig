@@ -13,12 +13,12 @@
 	{% set quincunx = 0 %}
 	{% for trick in tricks %}
 		{% if quincunx == 0 %}
-        {{ include("home_page/trick_item.html.twig", {'trick' : trick, 'direction' : 'left'}) }}
+			{{ include("home_page/trick_item.html.twig", {'trick' : trick, 'direction' : 'left'}) }}
 			{% set quincunx = 1 %}
 		{% else %}
-        {{ include("home_page/trick_item.html.twig", {'trick' : trick, 'direction' : 'right'}) }}
+			{{ include("home_page/trick_item.html.twig", {'trick' : trick, 'direction' : 'right'}) }}
 			{% set quincunx = 0 %}
 		{% endif %}
 	{% endfor %}
-    
+
 {% endblock %}

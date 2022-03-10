@@ -1,71 +1,75 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Espace utilisateur{% endblock %}
+{% block title %}Espace utilisateur
+{% endblock %}
 
 {% block body %}
-<h1 class="text-center mt-5 titleCard">Bienvenue sur votre espace personnel,  {{app.user.name | capitalize}}</h1>
-<br>
-
-<br>
-<div class="row ms-2 me-2 justify-content-md-center">
-  <div class="col-sm-5">
-    <div class="card cardUserSpace">
-      <div class="card-body">
-        <h5 class="card-title text-center titleCard">Créer un trick</h5>
-        <br>
-        <p class="card-text text-center">Si vous souhaitez un trick vous pouvez cliquer sur le bouton
-        ci-dessous</p>
-        <br>
-        <div class="text-center">
-            <a href="{{path('user_create_trick')}}" class="btn btn-primary">Créer un trick</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-5">
-    <div class="card cardUserSpace">
-      <div class="card-body">
-        <h5 class="card-title text-center titleCard">Vos informations personnelles</h5>
-        <br>
-        <p class="card-text">Votre nom d'utilisateur : {{app.user.name | capitalize}}</p>
-        <p class="card-text">Votre email : {{app.user.email | capitalize}}</p>
-        <div class="text-center">
-            <a href="{{path('user_modify_informations')}}" class="btn btn-primary">Modifier vos informations</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row ms-2 me-2 mt-4 text-center justify-content-md-center cardUserSpace">
-  <div class="col-sm-5">
-    <div class="card cardUserSpace">
-      <div class="card-body">
-        <h5 class="card-title text-center titleCard">Modifiez un trick</h5>
-        <br>
-        <p class="card-text">En cliquant ci-dessous vous pourrez choisir et modifier un trick.</p>
-        <p class="card-text">Vous pourrez changer le nom, le contenu et modifier les images qu'il contient.</p>
-        <div class="text-center">
-            <a href="{{path('modify_trick')}}" class="btn btn-primary">Modifier un trick</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-5">
-    <div class="card cardUserSpace">
-      <div class="card-body">
-        <h5 class="card-title titleCard">Vos commentaires</h5>
-        <br>
-        <p class="card-text">Vous avez commenté à {{count}} 
-        {% if count <= 1 %}
-          reprise
-        {% else %}
-          reprises
-        {% endif %}
-        </p>
-        <br>
-        <a href="{{path('user_view_commentary')}}" class="btn btn-primary">Aller voir vos commentaires</a>
-      </div>
-    </div>
-  </div>
-</div>
+	<h1 class="text-center mt-5 titleCard">Bienvenue sur votre espace personnel,
+		{{app.user.name | capitalize}}</h1>
+	<br>
+	<br>
+	<div class="row ms-2 me-2 justify-content-md-center">
+		<div class="col-sm-5">
+			<div class="card cardUserSpace">
+				<div class="card-body">
+					<h5 class="card-title text-center titleCard">Créer un trick</h5>
+					<br>
+					<p class="card-text text-center">Si vous souhaitez un trick vous pouvez cliquer sur le bouton
+												        ci-dessous</p>
+					<br>
+					<div class="text-center">
+						<a href="{{path('user_create_trick')}}" class="btn btn-info"><img src="{{asset('images/create.png')}}" alt="" width="30px" class="me-2">Créer un trick</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-5">
+			<div class="card cardUserSpace">
+				<div class="card-body">
+					<h5 class="card-title text-center titleCard">Vos informations personnelles</h5>
+					<br>
+					<p class="card-text">Votre nom d'utilisateur :
+						{{app.user.name | capitalize}}</p>
+					<p class="card-text">Votre email :
+						{{app.user.email | capitalize}}</p>
+					<div class="text-center">
+						<a href="{{path('user_modify_informations')}}" class="btn btn-info"><img src="{{asset('images/info.png')}}" alt="" width="30px" class="me-2">Modifier vos informations</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row ms-2 me-2 mt-4 text-center justify-content-md-center cardUserSpace">
+		<div class="col-sm-5">
+			<div class="card cardUserSpace">
+				<div class="card-body">
+					<h5 class="card-title text-center titleCard">Modifiez un trick</h5>
+					<br>
+					<p class="card-text">En cliquant ci-dessous vous pourrez choisir et modifier un trick.</p>
+					<p class="card-text">Vous pourrez changer le nom, le contenu et modifier les images qu'il contient.</p>
+					<div class="text-center">
+						<a href="{{path('modify_trick')}}" class="btn btn-info"><img src="{{asset('images/edit.png')}}" alt="" width="30px" class="me-2">Modifier un trick</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-5">
+			<div class="card cardUserSpace">
+				<div class="card-body">
+					<h5 class="card-title titleCard">Vos commentaires</h5>
+					<br>
+					<p class="card-text">Vous avez commenté à
+						{{count}}
+						{% if count <= 1 %}
+							reprise
+						{% else %}
+							reprises
+						{% endif %}
+					</p>
+					<br>
+					<a href="{{path('user_view_commentary')}}" class="btn btn-info"><img src="{{asset('images/commentaire.png')}}" alt="" width="30px" class="me-2">Aller voir vos commentaires</a>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
