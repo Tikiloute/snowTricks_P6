@@ -8,15 +8,17 @@ window.onload = ()  => {
 
         const form = new FormData(filterFrom);
 
-        // create queryString
+        // creation de la queryString
         const params = new URLSearchParams();
         
         form.forEach((value, key) => {
             params.append(key, value);
         })
 
+        // nouvelle url
         const url = new URL(window.location.href);
 
+        // on fetch la nouvelle url avec la queryString + le param ajax
         fetch(url.pathname + "?" + params.toString() + "&ajax=1", {
             headers: {
                 "X-Requested-With" : "XMLHttpRequest"
@@ -33,5 +35,4 @@ window.onload = ()  => {
         .catch(e => alert(e));
     })
 
-    
 }

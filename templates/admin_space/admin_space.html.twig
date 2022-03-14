@@ -23,16 +23,13 @@
 			</div>
 		</div>
 		<div class="col-sm-5 mb-3">
-			<div class="card cardUserSpace">
+			<div class="card cardUserSpace text-center">
 				<div class="card-body">
-					<h5 class="card-title text-center titleCard">Modérer un commentaire</h5>
+					<h5 class="card-title titleCard">Actions de suppression</h5>
 					<br>
-					<p class="card-text text-center">Dans cette partie vous pourrez supprimer ou valider
-						         un commentaire qui aura été signalé au préalable par les utilisateurs</p>
-					<br>
-					<div class="text-center">
-						<a href="#" class="btn btn-info"><img src="{{asset('images/epee.png')}}" alt="" width="30px" class="me-2">Modérer les commentaires</a>
-					</div>
+					<p class="card-text">Dans cette partie vous pourrez supprimer des tricks si vous
+												         trouvez qu'il ne sont pas en accord avec votre vision de ce site.</p>
+					<a href="{{path('admin_space_delete_user')}}" class="btn btn-info mt-3"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px" class="me-2">Aller vers les suppressions</a>
 				</div>
 			</div>
 		</div>
@@ -44,25 +41,12 @@
 					<h5 class="card-title titleCard">Modifier un rôle</h5>
 					<br>
 					<p class="card-text">En cliquant ci-dessous vous pourrez choisir un utilisateur
-						         et lui donner le rôle de modérateur. Ainsi il pourra modérer les commentaires et les abus
-						         concernant le texte ou les photos d'un trick</p>
+												         et lui donner le rôle de modérateur. Ainsi il pourra modérer les commentaires et les abus
+												         concernant le texte ou les photos d'un trick</p>
 					<p class="card-text">Vous pourrez également faire passer un modérateur au rôle
-						         d'utilisateur simple</p>
+												         d'utilisateur simple</p>
 					<a href="{{path('admin_space_change_role')}}" class="btn btn-info"><img src="{{asset('images/changement.png')}}" alt="" width="30px" class="me-2">
 						Modifier un rôle</a>
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-5 mb-3">
-			<div class="card cardUserSpace">
-				<div class="card-body">
-					<h5 class="card-title titleCard">Actions de suppression</h5>
-					<br>
-					<p class="card-text">Dans cette partie vous pourrez supprimer des tricks si vous
-						         trouvez qu'il ne sont pas en accord avec votre vision de ce site.</p>
-					<p class="card-text">Vous pourrez également supprimer des utilisateurs si leurs comportements
-						         n'est pas en adéquation avec la charte</p>
-					<a href="{{path('admin_space_delete_user')}}" class="btn btn-info"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px" class="me-2">Aller vers les suppressions</a>
 				</div>
 			</div>
 		</div>
