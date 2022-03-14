@@ -23,12 +23,9 @@
 			</label>
 			<select name="category" id="category" class="bg-secondary text-light rounded p-1 shadow ms-2" required>
 				<option selected="selected" value="" disabled>Choississez la catégorie</option>
-				<option value="Les grabs">Les grabs</option>
-				<option value="Les rotations">Les rotations</option>
-				<option value="Les flips">Les flips</option>
-				<option value="Les slides">Les slides</option>
-				<option value="Les one foot tricks">Les one foot tricks</option>
-				<option value="Old school">Old school</option>
+				{% for category in categories %}
+					<option value="{{category.id}}">{{category.name}}</option>
+				{% endfor %}
 			</select>
 		</div>
 		<div class="mb-3 form-group">{{ form_row(form.description, {'attr': {'class': 'textareaCreateTrick'}}) }}</div>

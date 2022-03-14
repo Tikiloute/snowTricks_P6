@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Commentary;
 use App\Entity\Trick;
 use App\Form\CommentaryType;
+use App\Repository\CategoryRepository;
 use App\Repository\CommentaryRepository;
 use App\Repository\TrickRepository;
 use DateTime;
@@ -14,25 +15,55 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class TrickController extends AbstractController
 {
     #[Route('/tricks', name: 'tricks')]
-    public function allTricks(TrickRepository $trickRepository, Request $request): Response
+    public function allTricks(
+        TrickRepository $trickRepository,
+        Request $request,
+        CategoryRepository $categoryRepository
+    ): Response
     {
-        $limit = 4;
+        $limit = 3;
         $page = max($request->query->getInt("page", 1), 1);
-        $countTricks = $trickRepository->getTotalTricks();
-        $tricks = $trickRepository->getPaginateTricks($page, $limit);
-        $numberOfPages = ceil($countTricks/$limit);
+        $filters = $request->get("category");
+        $countTricks = $trickRepository->getTotalTricks($filters);
+        $tricks = $trickRepository->getPaginateTricks($page, $limit, $filters);
+
+        if (ceil($countTricks/$limit) <= 0){
+            $numberOfPages = 1;
+        } else {
+            $numberOfPages = ceil($countTricks/$limit);
+        }
+        
+        $categories = $categoryRepository->findAll();
+
+        //ici on traite l'affiche pour la partie ajax
+        if ($request->get("ajax")){
+            return new JsonResponse([
+                'content' => $this->renderView('trick/content_tricks.html.twig', [
+                    "page" => $page,
+                    "tricks" => $tricks,
+                    "countTricks" => $countTricks,
+                    "numberOfPages" => $numberOfPages,
+                    "limit" => $limit,
+                    "categories" => $categories,
+                    "filters" => $filters
+                ])
+            ]);
+        }
 
         return $this->render('trick/all_tricks.html.twig', [
             "page" => $page,
             "tricks" => $tricks,
             "countTricks" => $countTricks,
             "numberOfPages" => $numberOfPages,
-            "limit" => $limit
+            "limit" => $limit,
+            "categories" => $categories,
+            "filters" => $filters
         ]);
     }
 

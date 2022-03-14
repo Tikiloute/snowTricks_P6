@@ -22,7 +22,7 @@
 				<p class="card-text">{{trick.description | capitalize}}</p>
 				<p class="card-text">
 					<small class="text-muted">Ce trick appartient à la catégorie :
-						{{trick.category}}</small>
+						{{trick.category.name}}</small>
 				</p>
 				<a href="{{path('trick', {"id" : trick.id})}}" class="btn btn-secondary">En savoir plus
 				</a>

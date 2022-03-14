@@ -33,11 +33,11 @@ class Trick
     #[OrderBy(["date" => "DESC"])]
     private $commentaries;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $category;
-
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true, cascade:["persist"])]
     private $videos;
+
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'trick')]
+    private $category;
 
     public function __construct()
     {
@@ -147,18 +147,6 @@ class Trick
         return $this;
     }
 
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Video[]
      */
@@ -185,6 +173,18 @@ class Trick
                 $video->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

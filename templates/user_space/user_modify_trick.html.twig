@@ -19,14 +19,15 @@
 		{{message}}
 	</div>
 {% endfor %}
-<h1 class='text-center mt-5 mb-3 titleCard'>Vous êtes actuellement sur la page de modification du
-	{{trick.name}}</h1>
+<h1 class='text-center mt-5 mb-3 titleCard'>
+	Vous êtes actuellement sur la page de modification du{{trick.name}}
+</h1>
 <br>
 <div class="text-center">
-{% if is_granted('ROLE_ADMIN') %}
-<a href="{{path('admin_space')}}" class="mb-4 me-2 btn btn-outline-info bg-light">Retour dans votre espace admin</a>
-{% endif %}
-<a href="{{path('user_space')}}" class="mb-4 btn btn-outline-secondary bg-light">Retour dans votre espace</a>
+	{% if is_granted('ROLE_ADMIN') %}
+		<a href="{{path('admin_space')}}" class="mb-4 me-2 btn btn-outline-info bg-light">Retour dans votre espace admin</a>
+	{% endif %}
+	<a href="{{path('user_space')}}" class="mb-4 btn btn-outline-secondary bg-light">Retour dans votre espace</a>
 </div>
 {# debut de modal #}
 <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
@@ -63,12 +64,11 @@
 			<label for="category">Choisissez une catégorie :
 			</label>
 			<select name="category" id="category" class="bg-secondary text-light rounded p-1 shadow ms-2" required>
-				<option value="Les grabs" {% if trick.category == "Les grabs"%} selected="selected" {% endif %}>Les grabs</option>
-				<option value="Les rotations" {% if trick.category == "Les rotations"%} selected="selected" {% endif %}>Les rotations</option>
-				<option value="Les flips" {% if trick.category == "Les flips"%} selected="selected" {% endif %}>Les flips</option>
-				<option value="Les slides" {% if trick.category == "Les slides"%} selected="selected" {% endif %}>Les slides</option>
-				<option value="Les one foot tricks" {% if trick.category == "Les one foot tricks"%} selected="selected" {% endif %}>Les one foot tricks</option>
-				<option value="Old school" {% if trick.category == "Old schools"%} selected="selected" {% endif %}>Old school</option>
+				{% for category in categories %}
+					<option value="{{category.id}}" {% if trick.category.name == category.name %} selected="selected" {% endif %}>
+						{{category.name}}
+					</option>
+				{% endfor %}
 			</select>
 		</div>
 		<div class="mb-3 form-group">{{ form_row(form.description, {'attr': {'class': 'textareaCreateTrick'}}) }}</div>

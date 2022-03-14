@@ -11,6 +11,7 @@ use App\Form\ModifyPasswordType;
 use App\Repository\UserRepository;
 use App\Repository\TrickRepository;
 use App\Form\ModifyInformationsType;
+use App\Repository\CategoryRepository;
 use App\Repository\CommentaryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -76,14 +77,17 @@ class UserSpaceController extends AbstractController
     public function createTrick(
         Request $request, 
         EntityManagerInterface $entityManagerInterface,
+        CategoryRepository $categoryRepository
     ): Response
     {
+        $categories = $categoryRepository->findAll();
         $trick = new Trick;
         $form = $this->createForm(CreateTrickType::class, $trick);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
-            $category = $request->get("category");
-
+            $categoryString = $request->get("category");
+            $categoryInt = intval($categoryString);
+            $category = $categoryRepository->findOneBy(["id" => $categoryInt]);
             //on récupère les images transmises
             $images = $form->get('images')->getData();
 
@@ -148,7 +152,8 @@ class UserSpaceController extends AbstractController
         } 
 
         return $this->render('user_space/user_create_trick.html.twig', [
-           "form" => $form->createView()
+           "form" => $form->createView(),
+           "categories" => $categories
         ]);
     }
 
@@ -156,15 +161,21 @@ class UserSpaceController extends AbstractController
     public function modifyTrick(
         Request $request,
         Trick $trick,
-        EntityManagerInterface $entityManagerInterface
+        EntityManagerInterface $entityManagerInterface,
+        CategoryRepository $categoryRepository,
+        TrickRepository $trickRepository
     ): Response
     {
+        $categories = $categoryRepository->findAll();
+    
         $form = $this->createForm(ModifyTrickType::class, $trick);
         $images = $trick->getImages();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
 
-            $category = $request->get("category");
+            $categoryId = $request->get("category");
+            $categoryInt = intval($categoryId);
+            $category = $categoryRepository->findOneBy(["id" => $categoryInt]);
 
             //on récupère les images transmises
             $images = $form->get('images')->getData();
@@ -244,7 +255,8 @@ class UserSpaceController extends AbstractController
 
         return $this->render('user_space/user_modify_trick.html.twig', [
             "form" => $form->createView(),
-            "trick" => $trick
+            "trick" => $trick,
+            "categories" => $categories,
          ]);
     }
 

@@ -23,15 +23,30 @@ class TrickRepository extends ServiceEntityRepository
      * return all tricks with paging
      *
      */
-    public function getPaginateTricks($page, $limit)
+    public function getPaginateTricks($page, $limit, $filters = null)
     {
-        return $this->createQueryBuilder('t')
-        ->orderBy('t.id', 'ASC')
-        ->setFirstResult(($page * $limit) - $limit)
-        ->setMaxResults($limit)
-        ->getQuery()
-        ->getResult()
-    ;
+
+        if ($filters != null){
+            return $this->createQueryBuilder('t')
+            ->andWhere('t.category IN(:cats)')
+            ->setParameter(':cats', $filters)
+            ->orderBy('t.id', 'ASC')
+            ->setFirstResult(($page * $limit) - $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        } else {
+
+            return $this->createQueryBuilder('t')
+            ->orderBy('t.id', 'ASC')
+            ->setFirstResult(($page * $limit) - $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        }
+        
     }
 
     /**
@@ -40,28 +55,63 @@ class TrickRepository extends ServiceEntityRepository
     public function getTrickHomePage()
     {
         return $this->createQueryBuilder('t')
-        ->orderBy('t.id', 'ASC')
-        ->setFirstResult(0)
-        ->setMaxResults(10)
-        ->getQuery()
-        ->getResult()
-    ;
+            ->orderBy('t.id', 'ASC')
+            ->setFirstResult(0)
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
     }
 
     /**
      * get total of tricks
      */
-    public function getTotalTricks()
+    public function getTotalTricks($filters = null)
     {
-        return $this->createQueryBuilder('t')
-        ->select("COUNT('t')")
-        ->getQuery()
-        //getSingleScalarResult return only string int result (not arrays...)
-        ->getSingleScalarResult()
-    ;
+        if ($filters != null){
+
+            return $this->createQueryBuilder('t')
+            ->select("COUNT('t')")
+            ->andWhere('t.category IN(:cats)')
+            ->setParameter(':cats', $filters)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        } else {
+
+            return $this->createQueryBuilder('t')
+            ->select("COUNT('t')")
+            ->getQuery()
+            ->getSingleScalarResult();
+        }
+        
     }
 
 
+    //  * @return Trick[] Returns an array of Trick objects
+    //  */
+    
+    public function findByCategory($category = null)
+    {
+        if($category != null ){
+            
+            return $this->createQueryBuilder('t')
+            ->andWhere('t.category = :val')
+            ->setParameter('val', $category)
+            ->orderBy('t.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+        } else {
+
+            return $this->createQueryBuilder('t')
+            ->orderBy('t.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+        }
+        
+    }
+    
 
     // /**
     //  * @return Trick[] Returns an array of Trick objects
