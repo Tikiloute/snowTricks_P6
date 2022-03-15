@@ -19,7 +19,7 @@ window.onload = ()  => {
         const url = new URL(window.location.href);
 
         // on fetch la nouvelle url avec la queryString + le param ajax
-        fetch(url.pathname + "?" + params.toString() + "&ajax=1", {
+        fetch(url.pathname + "?" + params.toString(), {
             headers: {
                 "X-Requested-With" : "XMLHttpRequest"
             }

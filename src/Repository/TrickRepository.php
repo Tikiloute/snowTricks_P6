@@ -65,14 +65,14 @@ class TrickRepository extends ServiceEntityRepository
     /**
      * get total of tricks
      */
-    public function getTotalTricks($filters = null)
+    public function getTotalTricks($filter = null)
     {
-        if ($filters != null){
+        if ($filter !== null){
 
             return $this->createQueryBuilder('t')
             ->select("COUNT('t')")
-            ->andWhere('t.category IN(:cats)')
-            ->setParameter(':cats', $filters)
+            ->andWhere('t.category = :cat')
+            ->setParameter(':cat', $filter)
             ->getQuery()
             ->getSingleScalarResult();
 
@@ -84,8 +84,18 @@ class TrickRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
         }
         
+        
     }
 
+    public function findBySearch($search)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.name LIKE :val')
+            ->setParameter('val', '%'.$search.'%')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     //  * @return Trick[] Returns an array of Trick objects
     //  */

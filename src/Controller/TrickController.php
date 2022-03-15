@@ -25,24 +25,30 @@ class TrickController extends AbstractController
         TrickRepository $trickRepository,
         Request $request,
         CategoryRepository $categoryRepository
-    ): Response
-    {
+    ): Response {
+        //faire une const !
         $limit = 3;
+
         $page = max($request->query->getInt("page", 1), 1);
-        $filters = $request->get("category");
+        $filters = $request->query->get("category");
+
+        if ($filters === "") {
+            $filters = null;
+        }
+
         $countTricks = $trickRepository->getTotalTricks($filters);
         $tricks = $trickRepository->getPaginateTricks($page, $limit, $filters);
 
-        if (ceil($countTricks/$limit) <= 0){
+        if (ceil($countTricks / $limit) <= 0) {
             $numberOfPages = 1;
         } else {
-            $numberOfPages = ceil($countTricks/$limit);
+            $numberOfPages = ceil($countTricks / $limit);
         }
-        
+
         $categories = $categoryRepository->findAll();
 
         //ici on traite l'affiche pour la partie ajax
-        if ($request->get("ajax")){
+        if ($request->isXmlHttpRequest()) {
             return new JsonResponse([
                 'content' => $this->renderView('trick/content_tricks.html.twig', [
                     "page" => $page,
@@ -74,14 +80,13 @@ class TrickController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManagerInterface,
         CommentaryRepository $commentaryRepository
-    ): Response
-    {
+    ): Response {
         $commentary = new Commentary();
         $form = $this->createForm(CommentaryType::class, $commentary);
         $id = $request->get('id');
         $trick = $trickRepository->find($id);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $date = new \DateTime();
             $new  = $date->format('d-m-Y H:i');
@@ -92,22 +97,20 @@ class TrickController extends AbstractController
             $entityManagerInterface->flush();
 
             $this->addFlash('success', 'Votre commentaire a bien été ajouté');
-        
         }
 
         //ici on vérifie la personne qui a écrit le commentaire et celle 
         //qui veut le supprimer sont les mêmes
         $get = $request->query->get('commentary');
 
-        if (isset($get)){
+        if (isset($get)) {
             $comm = $commentaryRepository->find($get);
         }
-        if (isset($get, $comm) && $this->getUser('id') === $comm->getAuthor()){
+        if (isset($get, $comm) && $this->getUser('id') === $comm->getAuthor()) {
             $entityManagerInterface->remove($comm);
             $entityManagerInterface->flush();
             $this->addFlash('warning', 'Votre commentaire a bien été supprimé');
             return $this->redirectToRoute('trick', ['id' => $trick->getId()]);
-            
         }
 
         return $this->render('trick/one_trick.html.twig', [
@@ -115,5 +118,4 @@ class TrickController extends AbstractController
             "form" => $form->createView()
         ]);
     }
-
 }
