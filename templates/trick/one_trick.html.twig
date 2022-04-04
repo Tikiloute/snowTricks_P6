@@ -1,137 +1,145 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{trick.name | capitalize}}{% endblock %}
+{% block title %}
+	{{trick.name | capitalize}}
+{% endblock %}
 
 {% block body %}
-{% for message in app.flashes('success') %}
-    <div class="alert alert-success text-center mt-2">
-        {{message}}
-    </div>
-{% endfor %}
-{% for message in app.flashes('warning') %}
-    <div class="alert alert-warning text-center mt-2">
-        {{message}}
-    </div>
-{% endfor %}
-<h1 class='text-center mt-5 titleCard'>Page du trick : {{trick.name | capitalize}}</h1>
-<br>
-{% if is_granted('ROLE_ADMIN') %}
-{# debut de modal #}
-<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ModalLabel">Confirmation de suppression de trick</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Etes-vous sûr de vouloir supprimer ce trick ?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-            <a href="{{path('user_modify_trick', {"id" : trick.id, "delete" : true})}}" class="btn btn-danger"><img src="{{asset('images/poubelle.png')}}" class="me-3" alt="" width="30px">Supprimer ce trick <img src="" alt=""></a>
-      </div>
-    </div>
-  </div>
-</div>
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success text-center mt-2">
+			{{message}}
+		</div>
+	{% endfor %}
+	{% for message in app.flashes('warning') %}
+		<div class="alert alert-warning text-center mt-2">
+			{{message}}
+		</div>
+	{% endfor %}
+	<h1 class='text-center mt-5 titleCard'>Page du trick :
+		{{trick.name | capitalize}}</h1>
+	<br>
+	{% if is_granted('ROLE_ADMIN') %}
+		{# debut de modal #}
+		<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="ModalLabel">Confirmation de suppression de trick</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						Etes-vous sûr de vouloir supprimer ce trick ?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+						<a href="{{path('user_modify_trick', {"id" : trick.id, "delete" : true})}}" class="btn btn-danger"><img src="{{asset('images/poubelle.png')}}" class="me-3" alt="" width="30px">Supprimer ce trick
+							<img src="" alt=""></a>
+					</div>
+				</div>
+			</div>
+		</div>
 
-{# ici fin de modal #}
+		{# ici fin de modal #}
 
-<div class="text-center mt-3 mb-3">
-    <a href="" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#Modal"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez ce trick</a>    
-</div> 
-{% endif %}
-{% if is_granted('ROLE_USER')  %}
-<div class="text-center">
-  <a href="{{path('user_modify_trick', {"id" : trick.id})}}" class="btn btn-primary"><img src="{{asset('images/edit.png')}}" alt="" width="30px">Modifier ce trick</a>
-</div>
-{% endif %}
-<br>
-    <div class="card m-auto text-center" style="width: 60%">
-        <img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h4 class="card-title titleCard">{{trick.name | upper }}</h4>
-            <p class="card-text">{{trick.description | capitalize}}
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi porro eveniet fugiat pariatur maxime impedit obcaecati voluptatum modi sint cum. Ex sunt, tenetur autem dicta labore, deserunt dolorum animi odio inventore distinctio quibusdam a? Molestias, beatae? Perferendis similique officia consequuntur totam, veniam delectus vero, debitis quidem saepe ducimus cum, sequi ipsum iste voluptate ullam! Officiis aperiam nostrum accusantium dolore sint accusamus odio non et voluptate. Similique dolorem voluptatibus esse aliquid illo placeat ipsa mollitia delectus omnis non labore ut nemo eius earum sequi quo, dolorum eum voluptatum neque illum laborum eaque. Recusandae, provident accusantium.
-             Odit maiores labore rem omnis dolorum!
-            </p>
-            <p class="card-text">Ce trick appartient à la catégorie : {{trick.category}}</p>
-        </div>
-    </div>
-    <div class="container col-8">
-    <div class="row mt-3 mb-3 justify-content-md-center">
-    {% for image in trick.images %}
-        <div class="col-2 m-2">
-            <img src="{{asset('uploads/' ~ image.path )}}" class="card-img-top" alt="...">
-        </div>
-    {% endfor %}
-    {% for video in trick.videos %}
-        <div class="w-25 col-2 m-2 ms-3">
-          <iframe class="m-2" src="{{video.url}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-    {% endfor %}
-    </div>
-    </div>
-    <br>
-    <hr>
-    <br>
-    <h2 class="text-center">Espace commentaire</h2>
-    <hr class="col-4 m-auto">
-    <br>
-    {% if is_granted('ROLE_USER') %}
-    {{form_start(form)}}
-        <div class="mb-3 col-4 m-auto">{{form_row(form.content, {'label': 'Ajoutez votre commentaire :'})}}</div>
-        <div class="text-center mt-2 mb-3">
-            <input type="submit" value="Envoyez votre commentaire" class="btn btn-secondary">
-        </div>
-    {{form_end(form)}}
-    <br>
-    <hr>
-    {% for commentary in trick.commentaries %}
-    <div class="col-4 m-auto text-center">
-    {% set dates = commentary.date|split(' ')%}
-        <h5>{{commentary.author.name|capitalize}}</h5>
-        <p>A écrit le {{dates[0]}} à {{dates[1]}}</p>
-        <p>{{commentary.content|capitalize}}</p>
-        {% if commentary.author.id == app.user.id %}
+		<div class="text-center mt-3 mb-3">
+			<a href="" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez ce trick</a>
+		</div>
+	{% endif %}
+	{% if is_granted('ROLE_USER')  %}
+		<div class="text-center">
+			<a href="{{path('user_modify_trick', {"id" : trick.id})}}" class="btn btn-info"><img src="{{asset('images/edit.png')}}" alt="" width="30px">Modifier ce trick</a>
+		</div>
+	{% endif %}
+	<br>
+	<div class="card m-auto text-center" style="width: 60%">
+		<img src="{{asset('images/snowHomepage.jpg')}}" class="card-img-top" alt="...">
+		<div class="card-body">
+			<h4 class="card-title titleCard">{{trick.name | upper }}</h4>
+			<p class="card-text">{{trick.description | capitalize}}
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi porro eveniet fugiat pariatur maxime impedit obcaecati voluptatum modi sint cum. Ex sunt, tenetur autem dicta labore, deserunt dolorum animi odio inventore distinctio quibusdam a? Molestias, beatae? Perferendis similique officia consequuntur totam, veniam delectus vero, debitis quidem saepe ducimus cum, sequi ipsum iste voluptate ullam! Officiis aperiam nostrum accusantium dolore sint accusamus odio non et voluptate. Similique dolorem voluptatibus esse aliquid illo placeat ipsa mollitia delectus omnis non labore ut nemo eius earum sequi quo, dolorum eum voluptatum neque illum laborum eaque. Recusandae, provident accusantium.
+				             Odit maiores labore rem omnis dolorum!
+			</p>
+			<p class="card-text">Ce trick appartient à la catégorie :
+				{{trick.category.name}}</p>
+		</div>
+	</div>
+	<div class="container col-8">
+		<div class="row mt-3 mb-3 justify-content-md-center">
+			{% for image in trick.images %}
+				<div class="col-2 m-2">
+					<img src="{{asset('uploads/' ~ image.path )}}" class="card-img-top" alt="...">
+				</div>
+			{% endfor %}
+			{% for video in trick.videos %}
+				<div class="w-25 col-2 m-2 ms-3">
+					<iframe class="m-2" src="{{video.url}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	<br>
+	<hr>
+	<br>
+	<h2 class="text-center">Espace commentaire</h2>
+	<hr class="col-4 m-auto">
+	<br>
+	{% if is_granted('ROLE_USER') %}
+		{{form_start(form)}}
+		<div class="mb-3 col-4 m-auto">{{form_row(form.content, {'label': 'Ajoutez votre commentaire :'})}}</div>
+		<div class="text-center mt-2 mb-3">
+			<input type="submit" value="Envoyez votre commentaire" class="btn btn-secondary">
+		</div>
+		{{form_end(form)}}
+		<br>
+		<hr>
+		{% for commentary in trick.commentaries %}
+			<div class="col-4 m-auto text-center">
+				{% set dates = commentary.date|split(' ')%}
+				<h5>{{commentary.author.name|capitalize}}</h5>
+				<p>A écrit le
+					{{dates[0]}}
+					à
+					{{dates[1]}}</p>
+				<p>{{commentary.content|capitalize}}</p>
+				{% if commentary.author.id == app.user.id %}
 
-{# debut de modal #}
-<div class="modal fade" id="ModalCom" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ModalLabel">Confirmation de suppression</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Etes-vous sûr de vouloir supprimer votre commentaire ?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-        <a href="{{path('trick', {"id" : trick.id, 'commentary' : commentary.id})}}" class="btn btn-danger text-light text-decoration-none"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimer votre commentaire</a>
-      </div>
-    </div>
-  </div>
-</div>
+					{# debut de modal #}
+					<div class="modal fade" id="ModalCom" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="ModalLabel">Confirmation de suppression</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									Etes-vous sûr de vouloir supprimer votre commentaire ?
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+									<a href="{{path('trick', {"id" : trick.id, 'commentary' : commentary.id})}}" class="btn btn-danger text-light text-decoration-none"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimer votre commentaire</a>
+								</div>
+							</div>
+						</div>
+					</div>
 
-{# ici fin de modal #}
+					{# ici fin de modal #}
 
-        <div>
-            <a href="" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalCom"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez votre commentaire</a>    
-        </div>   
+					<div>
+						<a href="" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalCom"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez votre commentaire</a>
+					</div>
 
-        <br>
-        {% endif %}
-    </div>
-    <hr class="col-3 m-auto">
-    <br>
-    {% endfor %}
+					<br>
+				{% endif %}
+			</div>
+			<hr class="col-3 m-auto">
+			<br>
+		{% endfor %}
 
-    {% else %}
-    <div class="text-center">
-        <h5>Veuillez vous connectez pour pouvoir écrire un commentaire</h5>
-        <a href="{{path("app_login")}}" class="btn btn-secondary">Se connecter</a>
-    </div>
-    <br>
-    {% endif %}
+	{% else %}
+		<div class="text-center">
+			<h5>Veuillez vous connectez pour pouvoir écrire un commentaire</h5>
+			<a href="{{path("app_login")}}" class="btn btn-secondary">Se connecter</a>
+		</div>
+		<br>
+	{% endif %}
 {% endblock %}

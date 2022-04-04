@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page de résultat de recherche
+{% endblock %}
+
+{% block body %}
+	<h1 class="titleCard text-center mt-4 mb-5">
+		Bienvenu sur la page de resultat de votre recherche
+	</h1>
+<br>
+	{% for trick in tricks %}
+		<div class="card mb-3 m-auto" style="max-width: 80%;">
+			<div class="row g-0">
+				<div class="col-md-4 col-4 m-auto mt-0 mb-0">
+					{% if trick.images|length %}
+						{% if trick.images| length > 1 %}
+							{% set rand = trick.images[random((trick.images|length)-1)] %}
+							<img src="{{asset('uploads/' ~ rand.path)}}" class="img-fluid rounded-start trickPicture" alt="...">
+						{% else %}
+							<img src="{{asset('uploads/' ~ trick.images[0].path)}}" class="img-fluid rounded-start trickPicture" alt="...">
+						{% endif %}
+					{% else %}
+						<img src="{{asset('images/snowHomepage.jpg')}}" class="img-fluid rounded-start trickPicture" alt="...">
+					{% endif %}
+				</div>
+				<div class="col-md-8">
+					<div class="card-body">
+						<h5 class="card-title titleCard text-center">{{trick.name | upper}}</h5>
+						<br>
+						<div class="card-text text-center">{{ trick.description | capitalize }}</div>
+						<p class="card-text text-center">
+							<small class="text-muted">Ce trick appartient à la catégorie :
+								{{trick.category.name}}</small>
+						</p>
+					</div>
+					<br>
+					<div class="text-center">
+						<a href="{{path('trick', {"id" : trick.id})}}" class="btn btn-secondary">En savoir plus
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+{% endblock %}

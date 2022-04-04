@@ -1,25 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Création de compte{% endblock %}
+{% block title %}Création de compte
+{% endblock %}
 
 {% block body %}
-<div class="col-12 mt-4 m-auto">
-<h1 class="mb-4 text-center">Création de votre compte</h1>
-    <div class="text-center">
-        <p class="text-decoration-underline"><img src="{{asset('images/logo.png')}}" width="100vw" alt="">- SnowTricks -</p>
-    </div>
-    {{form_start(form)}}
-    <div class="form-group col-xs-12 col-sm-6 col-6 m-auto">
-            <div class="mb-3 ">{{form_row(form.email, {'label': 'Votre email :'})}}</div>
-            <div class="mb-3 form-group">{{form_row(form.password.first, {'label': 'Votre mot de passe :'})}}</div>
-            <div class="mb-3 form-group">{{form_row(form.password.second, {'label': 'Réecrivez votre mot de passe :'})}}</div>
-            <div class="mb-3 form-group">{{form_row(form.name, {'label': 'Votre pseudo :'})}}</div>
-            <div class="text-center">
-                <button class="btn btn-lg btn-primary mt-3 ms-3" type="submit">
-                    Créez votre compte
-                </button>
-            </div>
-    </div>
-    {{form_end(form)}}
-</div>
+	<div class="col-12 mt-4 m-auto">
+		<h1 class="mb-4 text-center">Création de votre compte</h1>
+		<div class="text-center">
+			<p class="text-decoration-underline"><img src="{{asset('images/logo.png')}}" width="100vw" alt="">- SnowTricks -</p>
+		</div>
+		{{form_start(form)}}
+		<div class="form-group col-xs-12 col-sm-6 col-6 m-auto">
+			<div class="mb-3 ">{{form_row(form.email, {'label': 'Votre email :'})}}</div>
+			<div class="mb-3 form-group">{{form_row(form.password.first, {'label': 'Votre mot de passe :'})}}</div>
+			<div class="mb-3 form-group">{{form_row(form.password.second, {'label': 'Réecrivez votre mot de passe :'})}}</div>
+			<div class="mb-3 form-group">{{form_row(form.name, {'label': 'Votre pseudo :'})}}</div>
+			<div class="text-center">
+				<button class="btn btn-lg btn-primary mt-3 ms-3" type="submit">
+					Créez votre compte
+				</button>
+			</div>
+		</div>
+		{{form_end(form)}}
+	</div>
 {% endblock %}

@@ -1,85 +1,97 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Espace modification d'informations{% endblock %}
+{% block title %}Espace modification d'informations
+{% endblock %}
 
 {% block body %}
 {% for message in app.flashes('success') %}
-    <div class="alert alert-success text-center mt-2">
-        {{message}}
-    </div>
+	<div class="alert alert-success text-center mt-2">
+		{{message}}
+	</div>
 {% endfor %}
 {% for message in app.flashes('warning') %}
-    <div class="alert alert-danger text-center mt-2">
-        {{message}}
-    </div>
+	<div class="alert alert-danger text-center mt-2">
+		{{message}}
+	</div>
 {% endfor %}
 {% for message in app.flashes('danger') %}
-    <div class="alert alert-danger text-center mt-2">
-        {{message}}
-    </div>
+	<div class="alert alert-danger text-center mt-2">
+		{{message}}
+	</div>
 {% endfor %}
-<h1 class='text-center mt-5 mb-3 titleCard'>Vous êtes actuellement sur la page de modification du {{trick.name}}</h1>
+<h1 class='text-center mt-5 mb-3 titleCard'>
+	Vous êtes actuellement sur la page de modification du{{trick.name}}
+</h1>
+<br>
+<div class="text-center">
+	{% if is_granted('ROLE_ADMIN') %}
+		<a href="{{path('admin_space')}}" class="mb-4 me-2 btn btn-outline-info bg-light">Retour dans votre espace admin</a>
+	{% endif %}
+	<a href="{{path('user_space')}}" class="mb-4 btn btn-outline-secondary bg-light">Retour dans votre espace</a>
+</div>
 {# debut de modal #}
 <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ModalLabel">Confirmation de suppression de trick</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Etes-vous sûr de vouloir supprimer ce trick ?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-            <a href="{{path('user_modify_trick', {"id" : trick.id, "delete" : true})}}" class="btn btn-danger"><img src="{{asset('images/poubelle.png')}}" class="me-3" alt="" width="30px">Supprimer ce trick <img src="" alt=""></a>
-      </div>
-    </div>
-  </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="ModalLabel">Confirmation de suppression de trick</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Etes-vous sûr de vouloir supprimer ce trick ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+				<a href="{{path('user_modify_trick', {"id" : trick.id, "delete" : true})}}" class="btn btn-danger"><img src="{{asset('images/poubelle.png')}}" class="me-3" alt="" width="30px">Supprimer ce trick
+					<img src="" alt=""></a>
+			</div>
+		</div>
+	</div>
 </div>
 
 {# ici fin de modal #}
 <div class="text-center mt-3 mb-3">
-    <a href="{{path('trick', {"id" : trick.id})}}" class="btn btn-danger"><img src="{{asset('images/plane.png')}}" class="me-3" alt="" width="30px">Aller sur ce trick <img src="" alt=""></a>
-    <a href="" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#Modal"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez ce trick</a>    
-</div> 
+	<a href="{{path('trick', {"id" : trick.id})}}" class="btn btn-info"><img src="{{asset('images/plane.png')}}" class="me-3" alt="" width="30px">Aller sur ce trick
+		<img src="" alt=""></a>
+	<a href="" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#Modal"><img src="{{asset('images/poubelle.png')}}" alt="" width="30px">Supprimez ce trick</a>
+</div>
 
 <div class="col-6 m-auto">
-{{form_start(form)}}
-<div class="form-group">
-    <div class="mb-3">{{form_row(form.name, {'label': 'Nom du trick :'})}}</div>
-    <div class="mb-3">
-    <label for="category">Choisissez une catégorie : </label>
-    <select name="category" id="category" class="bg-secondary text-light rounded p-1 shadow ms-2" required>
-        <option value="Les grabs" {% if trick.category  == "Les grabs"%} selected="selected" {% endif %}>Les grabs</option>
-        <option value="Les rotations"{% if trick.category  == "Les rotations"%} selected="selected" {% endif %}>Les rotations</option>
-        <option value="Les flips"{% if trick.category  == "Les flips"%} selected="selected" {% endif %}>Les flips</option>
-        <option value="Les slides"{% if trick.category  == "Les slides"%} selected="selected" {% endif %}>Les slides</option>
-        <option value="Les one foot tricks"{% if trick.category  == "Les one foot tricks"%} selected="selected" {% endif %}>Les one foot tricks</option>
-        <option value="Old school"{% if trick.category  == "Old schools"%} selected="selected" {% endif %}>Old school</option>
-     </select>
-    </div>
-    <div class="mb-3 form-group">{{ form_row(form.description, {'attr': {'class': 'textareaCreateTrick'}}) }}</div>
-    <div class="container row justify-content-center">
-    {% for trick in trick.images %}
-        <div class="mb-4 mt-4 row col-4">
-            <img type="image" src="{{asset('uploads/') ~ trick.path}}" alt="">
-            <label class="text-center mt-2" for="deleteImg">Supprimer cette image</label>
-            <input type="checkbox" name="{{trick.id}}" id="deleteImg">
-        </div>
-            
-    {% endfor %}
-    {% for trickVideo in trick.videos %}
-        <div class="mb-4 mt-4 row col-4">
-            <iframe width="300" height="300" src="{{trickVideo.url}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <label class="text-center mt-2" for="deleteImg">Supprimer cette video</label>
-            <input type="checkbox" name="{{trickVideo.id}}" id="deleteImg">
-        </div>
-            
-    {% endfor %}
-    </div>
-        <div class="mb-3">{{form_row(form.images, {'label': 'Ajoutez une  ou plusieurs image(s) :'})}}</div>
-        <div class="mb-3">{{form_row(form.video, {'label': 'Ajoutez une vidéo youtube et dailymotion uniquement (mettez l\'url) :'})}}</div>
+	{{form_start(form)}}
+	<div class="form-group">
+		<div class="mb-3">{{form_row(form.name, {'label': 'Nom du trick :'})}}</div>
+		<div class="mb-3">
+			<label for="category">Choisissez une catégorie :
+			</label>
+			<select name="category" id="category" class="bg-secondary text-light rounded p-1 shadow ms-2" required>
+				{% for category in categories %}
+					<option value="{{category.id}}" {% if trick.category.name == category.name %} selected="selected" {% endif %}>
+						{{category.name}}
+					</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="mb-3 form-group">{{ form_row(form.description, {'attr': {'class': 'textareaCreateTrick'}}) }}</div>
+		<div class="container row justify-content-center">
+			{% for trick in trick.images %}
+				<div class="mb-4 mt-4 row col-4">
+					<img type="image" src="{{asset('uploads/') ~ trick.path}}" alt="">
+					<label class="text-center mt-2" for="deleteImg">Supprimer cette image</label>
+					<input type="checkbox" name="{{trick.id}}" id="deleteImg">
+				</div>
+
+			{% endfor %}
+			{% for trickVideo in trick.videos %}
+				<div class="mb-4 mt-4 row col-4">
+					<iframe width="300" height="300" src="{{trickVideo.url}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					<label class="text-center mt-2" for="deleteImg">Supprimer cette video</label>
+					<input type="checkbox" name="{{trickVideo.id}}" id="deleteImg">
+				</div>
+
+			{% endfor %}
+		</div>
+		<div class="mb-3">{{form_row(form.images, {'label': 'Ajoutez une  ou plusieurs image(s) :'})}}</div>
+		<div class="mb-3">{{form_row(form.video, {'label': 'Ajoutez une vidéo youtube et dailymotion uniquement (mettez l\'url) :'})}}</div>
 
 </div>
     <div class="text-center">

@@ -9,7 +9,9 @@ use App\Form\CreateTrickType;
 use App\Form\ModifyTrickType;
 use App\Form\ModifyPasswordType;
 use App\Repository\UserRepository;
+use App\Repository\TrickRepository;
 use App\Form\ModifyInformationsType;
+use App\Repository\CategoryRepository;
 use App\Repository\CommentaryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,6 +33,15 @@ class UserSpaceController extends AbstractController
             'controller_name' => 'UserSpaceController',
             'count' => $count,
             'user' => $user
+        ]);
+    }
+
+    #[Route('/user/modifyTrick', name: 'modify_trick')]
+    public function modifyTrickList(TrickRepository $trickRepository): Response
+    {
+        $tricks = $trickRepository->findAll();
+        return $this->render('admin_space/modify_trick.html.twig', [
+            "tricks" => $tricks,
         ]);
     }
 
@@ -66,14 +77,17 @@ class UserSpaceController extends AbstractController
     public function createTrick(
         Request $request, 
         EntityManagerInterface $entityManagerInterface,
+        CategoryRepository $categoryRepository
     ): Response
     {
+        $categories = $categoryRepository->findAll();
         $trick = new Trick;
         $form = $this->createForm(CreateTrickType::class, $trick);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
-            $category = $request->get("category");
-
+            $categoryString = $request->get("category");
+            $categoryInt = intval($categoryString);
+            $category = $categoryRepository->findOneBy(["id" => $categoryInt]);
             //on récupère les images transmises
             $images = $form->get('images')->getData();
 
@@ -138,7 +152,8 @@ class UserSpaceController extends AbstractController
         } 
 
         return $this->render('user_space/user_create_trick.html.twig', [
-           "form" => $form->createView()
+           "form" => $form->createView(),
+           "categories" => $categories
         ]);
     }
 
@@ -146,15 +161,21 @@ class UserSpaceController extends AbstractController
     public function modifyTrick(
         Request $request,
         Trick $trick,
-        EntityManagerInterface $entityManagerInterface
+        EntityManagerInterface $entityManagerInterface,
+        CategoryRepository $categoryRepository,
+        TrickRepository $trickRepository
     ): Response
     {
+        $categories = $categoryRepository->findAll();
+    
         $form = $this->createForm(ModifyTrickType::class, $trick);
         $images = $trick->getImages();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
 
-            $category = $request->get("category");
+            $categoryId = $request->get("category");
+            $categoryInt = intval($categoryId);
+            $category = $categoryRepository->findOneBy(["id" => $categoryInt]);
 
             //on récupère les images transmises
             $images = $form->get('images')->getData();
@@ -184,30 +205,20 @@ class UserSpaceController extends AbstractController
             $formVideo = $form->get('video')->getData();
             $video = new Video();
             if (isset($formVideo) && !is_null($formVideo)){
-                if (str_contains($formVideo, 'youtube')){
-                    $urlExplode = explode('/watch?v=', $formVideo);
-                    if (str_contains($urlExplode[1], "&")){
-                        $explodeUrlExplode = explode('&', $urlExplode[1]);
-                        $urlYoutube = "https://www.youtube.com/embed/".$explodeUrlExplode[0];
-                        $video->setUrl($urlYoutube);
-                        $trick->addVideo($video);
-                    } else {
-                        $urlYoutube = "https://www.youtube.com/embed/".$urlExplode[1];
-                        $video->setUrl($urlYoutube);
-                        $trick->addVideo($video);
-                    }        
-                } elseif (str_contains($formVideo, 'dailymotion')){
-                    $urlExplode = explode('video/', $formVideo);
-                    if (str_contains($urlExplode[1], "?")){
-                        $explodeUrlExplode = explode('?', $urlExplode[1]);
-                        $urlDailyMotion = "https://www.dailymotion.com/embed/video/".$explodeUrlExplode[0];
-                        $video->setUrl($urlDailyMotion);
-                        $trick->addVideo($video);
-                    } else {
-                        $urlDailyMotion = "https://www.dailymotion.com/embed/video/".$urlExplode[1];
-                        $video->setUrl($urlDailyMotion);
-                        $trick->addVideo($video);
-                    }
+                if (str_contains($formVideo, 'www.youtube')){
+                    $parseUrl = parse_url($formVideo, PHP_URL_QUERY);
+                    $result = [];
+                    parse_str($parseUrl, $result);
+                    $urlYoutube = "https://www.youtube.com/embed/".$result["v"];
+                    $video->setUrl($urlYoutube);
+                    $trick->addVideo($video);
+                    
+                } elseif (str_contains($formVideo, 'www.dailymotion')){
+                    $parseUrl = parse_url($formVideo, PHP_URL_PATH);
+                    $urlDailyMotion = "https://www.dailymotion.com/embed".$parseUrl;
+                    $video->setUrl($urlDailyMotion);
+                    $trick->addVideo($video);
+        
                 } else {
                     $this->addFlash('warning', 'La vidéo n\'a pas été ajoutée car ce n\'est pas 
                     une vidéo youtube/dailymotion ou que l\'url était érronée');
@@ -244,7 +255,8 @@ class UserSpaceController extends AbstractController
 
         return $this->render('user_space/user_modify_trick.html.twig', [
             "form" => $form->createView(),
-            "trick" => $trick
+            "trick" => $trick,
+            "categories" => $categories,
          ]);
     }
 
